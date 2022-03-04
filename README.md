@@ -1,2 +1,2 @@
 # DataProcessing
-School eind opdracht Data-processing
+Eind opdracht Data-processing
