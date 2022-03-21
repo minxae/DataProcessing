@@ -2,8 +2,49 @@ const express = require("express");
 const res = require("express/lib/response");
 const app = express();
 
+// -AJV schema lib
+const Ajv = require("ajv");
+const JSONschema  = require("./");
+
+
+// const ajv = new Ajv();
+// // const jsonobj = {  
+// //     "asdads": "asdad"
+// // } 
+
+// const validate = ajv.compile(jsonSchema)
+
+// validate(jsonobj);
+
+console.log(JSONSchema);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // -Sql package
 const mysql = require("mysql");
+
 // -Connection 
 const conn = mysql.createConnection(
     {
@@ -49,7 +90,7 @@ app.post('/delete:', (req, res) =>
 // -Manipulating data
 app.post('/update:', (req, res) =>
 {
-
+// -Inserting data
 });
 app.post('/insert:', (req, res) =>
 {
