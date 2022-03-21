@@ -1,0 +1,57 @@
+
+{
+    "type": "array",
+    "items": {
+        "type" : "object",
+        "properties": {
+            "Country":{
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 50
+            },
+            "1995":{
+                "type": "integer"
+            },
+            "2000":{
+                "type": "integer"
+            },
+            "2005":{
+                "type": "integer"
+            },
+            "2010":{
+                "type": "integer"
+            },
+            "2011":{
+                "type": "integer"
+            },
+            "2012":{
+                "type": "integer"
+            },
+            "2013":{
+                "type": "integer"
+            },
+            "2014":{
+                "type": "integer"
+            },
+            "2015":{
+                "type": "integer"
+            },
+            "2016":{
+                "type": "integer"
+            },
+            "2017":{
+                "type": "integer"
+            },
+            "2018":{
+                "type": "integer"
+            },
+            "Info":{
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 50
+            }
+        },
+        "required": ["Country"],
+        "additionalProperties": false
+    }
+}

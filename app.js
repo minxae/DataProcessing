@@ -1,51 +1,23 @@
-const express = require("express");
+const express = require("express"); //Express
 const res = require("express/lib/response");
 const app = express();
+const mysql = require("mysql"); //Mysql
+const Ajv = require("ajv"); //AVJ JSON schema validator
 
+app.use(express.json());
 // -AJV schema lib
-const Ajv = require("ajv");
-const JSONschema  = require("./");
+const schema = require("./JSON_Schemas/JSON_schema_GNI_Male.json");
+
+const ajv = new Ajv();
+
+// -in this format data will be send to the api and checked by the validator
+const data = [{
+    "Country": "Albania",
+    "2000": 23423
+}]
 
 
-// const ajv = new Ajv();
-// // const jsonobj = {  
-// //     "asdads": "asdad"
-// // } 
-
-// const validate = ajv.compile(jsonSchema)
-
-// validate(jsonobj);
-
-console.log(JSONSchema);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// -Sql package
-const mysql = require("mysql");
-
-// -Connection 
+// -Database connection 
 const conn = mysql.createConnection(
     {
         host: '127.0.0.1',
@@ -66,7 +38,22 @@ app.get('/testRoute', (req, res) =>
 });
 
 // -Selecting all data from table.
-
+app.post("/insertData", (req, res)=>
+{
+    const validJson = ajv.validate(schema, req.body);
+    if(validJson)
+    {
+        res.status(200)
+        res.send("DATA BEEN INSERTED");
+    }
+    else 
+    {
+        res.status(400)
+        res.send("DATA NOT BEEN INSERTED");
+    }
+    console.log("asdasdad")
+    
+});
 // -returns object with JSON
 app.get('/select', (req,res) =>
 {
@@ -82,19 +69,6 @@ app.get('/select', (req,res) =>
     })
 });
 
-// -Deleting data
-app.post('/delete:', (req, res) =>
-{
 
-});
-// -Manipulating data
-app.post('/update:', (req, res) =>
-{
-// -Inserting data
-});
-app.post('/insert:', (req, res) =>
-{
-
-});
 
 app.listen(3000);
