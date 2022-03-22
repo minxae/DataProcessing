@@ -1,0 +1,22 @@
+
+{
+    "type": "array",
+    "title": "Estimated_GNI_Male",
+    "items": {
+        "type" : "object",
+        "properties": {
+            "Country":{
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 50
+            },
+            "Year":{
+                "type": "integer"
+            }
+        },
+        "required": [
+            "Country"
+        ],
+        "additionalProperties": false
+    }
+}
