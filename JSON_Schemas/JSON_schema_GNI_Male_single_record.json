@@ -1,7 +1,7 @@
 
 {
     "type": "array",
-    "title": "Estimated_GNI_Male",
+    "title": "Estimated_GNI_Male_single_record",
     "items": {
         "type" : "object",
         "properties": {
@@ -15,7 +15,8 @@
             }
         },
         "required": [
-            "Country"
+            "Country",
+            "Year"
         ],
         "additionalProperties": false
     }

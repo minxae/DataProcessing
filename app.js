@@ -4,12 +4,14 @@ const app = express();
 const mysql = require("mysql"); //Mysql
 const Ajv = require("ajv"); //AVJ JSON schema validator
 const { query } = require("express");
+const { resolveSchema } = require("ajv/dist/compile");
 
 app.use(express.json());
 // -AJV schema lib for female and male 
 const GNI_MaleFemale_schema = require("./JSON_Schemas/JSON_schema_GNI_Male.json");
 const GNI_MaleFemale_schema_single_record = require("./JSON_Schemas/JSON_schema_GNI_Male_single_record.json");
-const { resolveSchema } = require("ajv/dist/compile");
+const GNI_Per_capita_schema = require("./JSON_Schemas/JSON_schema_GNI_per_capita.json");
+
 
 const ajv = new Ajv();
 
@@ -80,6 +82,19 @@ app.get("/estimatedGNIMale", (req, res)=>
     })
     
 });
+app.post("/GNIPerCapita", (req,res) => 
+{
+    const json = req.body;
+    const valid = ajv.validate(GNI_Per_capita_schema, req.body)
+
+    if(!valid)
+    {
+        console.log(ajv.errors)
+    }else
+    {
+        console.log("VALID JSON GNI PER CAPITA")
+    }
+});
 
 // Gets a single record
 app.post("/GNIMaleSingleRecord", (req, res) =>
@@ -125,7 +140,6 @@ app.put("/estimatedGNIMale/update", (req, res) =>
     
     if(valid)
     {
-        console.log(data);
         res.status(200)
         res.send("Updated data");
     }else
