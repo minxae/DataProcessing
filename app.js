@@ -51,24 +51,13 @@ app.get("/estimatedGNIMale", (req, res)=>
         if(result.length > 0)
         {
             if(err) throw err;
+            res.status(200)
+            res.send("data found").end();
 
-            const valid = ajv.validate(GNI_MaleFemale_schema, result); 
-    
-            // -checks if JSON data is valid with the schema
-            if(valid)
-            {
-                res.status(200);
-                res.send(result);
-            }else
-            {
-                res.status(400);
-                res.send("Data form API is invalid");
-            }
         }else 
         {
             res.status(400)
             res.send("No data found").end();
-            console.log("No data found in ")
         }
         
     })
@@ -79,6 +68,7 @@ app.get("/estimatedGNIMale", (req, res)=>
 app.post("/GNIMaleSingleRecord", (req, res) =>
 {
     const json = req.body;
+    console.log(json)
     const year = req.body[0].Year;
     const country = req.body[0].Country;
     const valid = ajv.validate(GNI_MaleFemale_schema_single_record, json);
@@ -110,17 +100,25 @@ app.post("/GNIMaleSingleRecord", (req, res) =>
 });
 
 // -Updating data from client
+// -Male GNI table
 app.put("/estimatedGNIMale/update", (req, res) =>
 {
     const data = req.body;
-    const reference = req.body[0].Country;
+    //const reference = req.body[0].Country;
 
     const valid = ajv.validate(GNI_MaleFemale_schema, data)
     
     if(valid)
     {
-        res.status(200)
-        res.send("Updated data");
+        const query = makeSqlStringUpdate(data, "estimated_gni_male");
+        conn.query(query, function(err, result)
+        {   
+            if(err)throw err;
+
+            res.status(200);
+            res.send("Data updated")
+        });
+        
     }else
     {
         res.status(400)
@@ -128,6 +126,7 @@ app.put("/estimatedGNIMale/update", (req, res) =>
     }
     
 });
+
 
 // -Selecting all data from table.
 // - This endpoint gets all the record that are the table:
@@ -161,6 +160,34 @@ app.get("/estimatedGNIFemale", (req, res)=>
         }
     });
 });
+
+// -Updating data from client
+// -Female GNI table
+app.put("/estimatedGNIFemale/update", (req, res) =>
+{
+    const data = req.body;
+    //const reference = req.body[0].Country;
+
+    const valid = ajv.validate(GNI_MaleFemale_schema, data)
+    
+    if(valid)
+    {
+        const query = makeSqlStringUpdate(data, "estimated_gni_female");
+        conn.query(query, function(err, result)
+        {   
+            if(err)throw err;
+
+            res.status(200);
+            res.send("Data updated")
+        });
+        
+    }else
+    {
+        res.status(400)
+        res.send("JSON invalid");
+    }
+    
+});
 // - 
 app.post("/GNIPerCapita", (req,res) => 
 {
@@ -178,6 +205,28 @@ app.post("/GNIPerCapita", (req,res) =>
     }
 });
 
-
+// -This function is used to update multiple records.
+// -The amount of records depends on how many the user wants to update at once.
+function makeSqlStringUpdate(object, table)
+{
+    var query = "UPDATE " + table + " SET "; 
+    var country = "'" + object.country + "'"; 
+    var end = "WHERE Country = " + country;
+    for(x in object)
+    {
+        if(x == "data")
+        {
+            for(year in object[x])
+            {
+                console.log(year)
+                console.log(object[x][year]);
+                query = query + "`" + year + "`" + " = " + object[x][year] + " ,";
+            }
+        }
+    }
+    var result = query.slice(0, -1) + end;
+    console.log(result)
+    return result;
+}
 
 app.listen(3000);
