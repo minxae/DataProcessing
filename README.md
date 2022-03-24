@@ -15,14 +15,16 @@ Na het installeren kunnen we in de terminal het volgende typen:
 Als alles goed verloopt zien we geen errors en staat de API op scherp.
 
 # Updating records format:
-{
-    "country":  "Albania",
-    "data": 
-        {
-            "2000": 7219
-            
-        }
-}
+<code>
+  {
+      "country":  "Albania",
+      "data": 
+          {
+              "2000": 7219
+              
+          }
+  }
+</code>
 
 # Selecting one single record format:
 {
