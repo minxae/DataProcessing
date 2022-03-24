@@ -3,7 +3,16 @@ Eind opdracht Data-processing
 
 ## Installeren
 
+Install express
 > npm install express
+
+Install ajv validator
+> npm install ajv
+
+Na het installeren kunnen we in de terminal het volgende typen:
+> node app.js
+
+Als alles goed verloopt zien we geen errors en staat de APi op scherp.
 
 # Updating records format:
 {
