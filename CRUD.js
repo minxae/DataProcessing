@@ -2,9 +2,6 @@ const mysql = require("mysql"); //Mysql
 const Ajv = require("ajv");
 const ajv = new Ajv();
 
-//schemas
-
-
 const conn = mysql.createConnection(
     {
         host: '127.0.0.1',
@@ -27,33 +24,36 @@ async function getAllData(table)
     });
     
 }
-async function getOneSingleRecord(req, tabel)
+
+async function getOneSingleRecord(req, table)
 {
-    return new Promise((res, error) =>
+    return new Promise(res =>
     {
         const year = req.body[0].Year;
         const country = req.body[0].Country;
         
-        const values = [year, table, country];//removing sqlInjections
-        const query = "SELECT `?` FROM ? WHERE Country = ?";
+        const values = [year,  country];//removing sqlInjections
+        const query = "SELECT `?` FROM "+ table +" WHERE Country = ?";
         conn.query(query, values, function(err, result)
         {
-            if(err) error("Something went wrong!");
+            if(err)throw err;
+            console.log(result)
             res(result)
         });
     });
 }
+
 async function updateData(req, table)
 {
-    return new Promise((res, error) =>
+    return new Promise(res =>
     {
         const data = req.body;
 
         const query = makeSqlStringUpdate(data, table);
         conn.query(query, function(err, result)
         {   
-            if(err) error("Something went wrong!");
-            res("Updated")
+            if(err)throw err;
+            res("Updated");
         });
     });
 
@@ -119,6 +119,19 @@ function checkContentType(type)
         return true;
     }
     return false;
+}
+// -If the one of the two returns true that means the request is valid.
+function validator(body)
+{
+    const JSONValidator = ajv.validate(GNI_MaleFemale_schema, body)
+    const XMLValidator = false;
+    if(JSONValidator || XMLValidator)
+    {
+        return true;
+    }else
+    {
+        return false;
+    }
 }
 
 

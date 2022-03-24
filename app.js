@@ -2,14 +2,13 @@ const express = require("express"); //Express
 const app = express();
 const Ajv = require("ajv"); //AVJ JSON schema validator
 const crud = require("./CRUD");
-var xmlparser = require('express-xml-bodyparser');
-
+const xmlparser = require("express-xml-bodyparser");
+const xml2js = require("xml2js");
 
 app.use(xmlparser());
 app.use(express.json());
 
-const ajv = new Ajv();
-
+const ajv = new Ajv();// JSON schema validator
 
 const tableMale = "estimated_gni_male";
 const tableFemale = "estimated_gni_female";
@@ -25,11 +24,6 @@ const GNI_Per_capita_schema = require("./JSON_Schemas/JSON_schema_GNI_per_capita
 // # estimated_gni_male
 app.get("/GNImale/allData", async (req, res)=>
 {
-    // const valid = validator(req.body);
-    // if(valid)
-    // {
-
-    // }
     try
     {
         const data = await crud.getAllData(tableMale);
@@ -43,78 +37,216 @@ app.get("/GNImale/allData", async (req, res)=>
     
 });
 
-function validator(body)
-{
-    const JSONValidator = ajv.validate(GNI_MaleFemale_schema, body)
-    const XMLValidator = false;
-    if(JSONValidator || XMLValidator)
-    {
-        return true;
-    }else
-    {
-        return false;
-    }
-}
-
 // -Gets a single record
 app.post("/GNImale/singleRecord", async (req, res) =>
 {
-    try
+    const valid = ajv.validate(GNI_MaleFemale_schema_single_record, req.body);
+     
+    if(valid)
     {
-        const data = await crud.getOneSingleRecord(tableMale);
-        res.status(200);
-        res.send(data);
-    }catch(err)
+        try
+        {
+            const data = await crud.getOneSingleRecord(req, tableMale);
+            res.status(200);
+            res.send(data);
+        }catch(err)
+        {
+            res.status(400);
+            res.send(err);
+        }
+    }else
     {
+        res.statusMessage = "JSON invalid";
         res.status(400);
-        res.send(err);
+        res.send("Data must be send in JSON schema format.")
     }
+    
 });
 
 // -Updating data from client
 // -Male GNI table
 app.put("/GNImale/updateCountry", async (req, res) =>
 {
+    const valid = ajv.validate(GNI_MaleFemale_schema, req.body);
+
+    if(valid)
+    {
+        try{
+            const data = await crud.updateData(req, tableMale);
+            res.status(200);
+            res.send(data);
+        }catch(err)
+        {
+            res.status(400);
+            res.send(data);
+        }
+    }else
+    {
+        res.statusMessage = "JSON invalid";
+        res.status(400);
+        res.send("Data must be send in JSON schema format.")
+    }
+});
+// -Create new row with data
+app.post("/GNImale/addCountry", async (req, res) =>
+{
+    const valid = ajv.validate(GNI_MaleFemale_schema, req.body);
+
+    if(valid)
+    {
+        try
+        {
+            const data = await crud.addCountry(req, tableMale);
+            res.status(200);
+            res.send(data);
+        }catch(err)
+        {
+            res.status(400);
+            res.send(data);
+        }
+    }else
+    {
+        res.statusMessage = "JSON invalid";
+        res.status(400);
+        res.send("Data must be send in JSON schema format.")
+    }
+});
+
+app.delete("/GNImale/deleteCountry/:country", async (req, res) =>
+{
+    const valid = ajv.validate(GNI_MaleFemale_schema, req.body);
+    if(valid)
+    {
+        try
+        {
+            const data = await crud.deleteCountry(req, tableMale);
+            res.status(200);
+            res.send(data);
+        }catch(err)
+        {
+            res.status(200);
+            res.send(err);
+        }
+    }else
+    {
+        res.statusMessage = "JSON invalid";
+        res.status(400);
+        res.send("Data must be send in JSON schema format.")
+    }
+});
+
+// ------------------------------Female GNI routes--------------------------------------
+
+app.get("/GNIFemale/allData", async (req, res)=>
+{
     try
     {
-        const data = await crud.updateData(req, tableMale);
+        const data = await crud.getAllData(tableFemale);
         res.status(200);
         res.send(data);
     }catch(err)
     {
         res.status(400);
-        res.send(data);
+        res.send(err);
     }
     
 });
-// -Create new row with data
-app.post("/GNImale/addCountry", async (req, res) =>
-{
-    console.log(req.body.country)
-    // try
-    // {
-    //     const data = await crud.addCountry(req, tableMale);
-    //     res.status(200);
-    //     res.send(data);
-    // }catch(err)
-    // {
-    //     res.status(400);
-    //     res.send(data);
-    // }
 
+// -Gets a single record
+app.post("/GNIFemale/singleRecord", async (req, res) =>
+{
+    const valid = ajv.validate(GNI_MaleFemale_schema_single_record, req.body);
+     
+    if(valid)
+    {
+        try
+        {
+            const data = await crud.getOneSingleRecord(req, tableFemale);
+            res.status(200);
+            res.send(data);
+        }catch(err)
+        {
+            res.status(400);
+            res.send(err);
+        }
+    }else
+    {
+        res.statusMessage = "JSON invalid";
+        res.status(400);
+        res.send("Data must be send in JSON schema format.")
+    }
+    
 });
 
-app.delete("/GNImale/deleteCountry/:country", async (req, res) =>
+// -Updating data from client
+// -Male GNI table
+app.put("/GNIFemale/updateCountry", async (req, res) =>
 {
-    try
+    const valid = ajv.validate(GNI_MaleFemale_schema, req.body);
+
+    if(valid)
     {
-        const data = await crud.deleteCountry(req, tableMale);
-        res.status(200);
-        res.send(data);
-    }catch(err)
+        try{
+            const data = await crud.updateData(req, tableFemale);
+            res.status(200);
+            res.send(data);
+        }catch(err)
+        {
+            res.status(400);
+            res.send(data);
+        }
+    }else
     {
-        res.status(200);
-        res.send(err);
+        res.statusMessage = "JSON invalid";
+        res.status(400);
+        res.send("Data must be send in JSON schema format.")
+    }
+});
+// -Create new row with data
+app.post("/GNIFemale/addCountry", async (req, res) =>
+{
+    const valid = ajv.validate(GNI_MaleFemale_schema, req.body);
+
+    if(valid)
+    {
+        try
+        {
+            const data = await crud.addCountry(req, tableFemale);
+            res.status(200);
+            res.send(data);
+        }catch(err)
+        {
+            res.status(400);
+            res.send(data);
+        }
+    }else
+    {
+        res.statusMessage = "JSON invalid";
+        res.status(400);
+        res.send("Data must be send in JSON schema format.")
+    }
+});
+
+app.delete("/GNIFemale/deleteCountry/:country", async (req, res) =>
+{
+    const valid = ajv.validate(GNI_MaleFemale_schema, req.body);
+    if(valid)
+    {
+        try
+        {
+            const data = await crud.deleteCountry(req, tableFemale);
+            res.status(200);
+            res.send(data);
+        }catch(err)
+        {
+            res.status(200);
+            res.send(err);
+        }
+    }else
+    {
+        res.statusMessage = "JSON invalid";
+        res.status(400);
+        res.send("Data must be send in JSON schema format.")
     }
 });
 
