@@ -1,7 +1,7 @@
 
 {
     "type": "array",
-    "title": "Estimated_GNI_Male",
+    "title": "GNI_per_capita",
     "items": {
         "type" : "object",
         "properties": {

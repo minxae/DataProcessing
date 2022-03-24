@@ -80,23 +80,32 @@ async function addCountry(req, table)
 {
     return new Promise((res, error) =>
         {
-            const data = req.body;
+            const type = req.headers["content-type"];
+
+            console.log(data);
             const country = req.body.country;
             const values = [country];
             const valid = ajv.validate(GNI_MaleFemale_schema, data);
             const query = "INSERT INTO "+ table +" (Country) VALUES (?)"
 
-            if(valid)
+            if(checkContentType(type))
             {
-                conn.query(query, values, function(err,result, fields)
-                {   
-                    if(err) error("Something went wrong!");
-                    res("Country created: "+ country);
-                });
+                //JSON body
             }else
             {
-                res("Invalid JSON");
+                //xml body
             }
+            // if(valid)
+            // {
+            //     conn.query(query, values, function(err,result, fields)
+            //     {   
+            //         if(err) error("Something went wrong!");
+            //         res("Country created: "+ country);
+            //     });
+            // }else
+            // {
+            //     res("Invalid JSON");
+            // }
         });
 }
 
@@ -136,6 +145,17 @@ function makeSqlStringUpdate(object, table)
     console.log(result)
     return result;
 };
+
+// -Custom function to check what type of format is being send to the api.
+function checkContentType(type)
+{
+    if(type == "application/json" )
+    {
+        return true;
+    }
+    return false;
+}
+
 
 module.exports = {
     getAllData: getAllData,

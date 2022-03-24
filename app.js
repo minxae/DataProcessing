@@ -7,7 +7,13 @@ const { query } = require("express");
 const { resolveSchema } = require("ajv/dist/compile");
 const crud = require("./CRUD");
 const Connection = require("mysql/lib/Connection");
+var xmlparser = require('express-xml-bodyparser');
+
+
+app.use(xmlparser());
 app.use(express.json());
+
+const ajv = new Ajv();
 
 
 const tableMale = "estimated_gni_male";
@@ -64,18 +70,19 @@ app.put("/GNImale/updateCountry", async (req, res) =>
     
 });
 // -Create new row with data
-app.post("/GNImale/createCountry", async (req, res) =>
+app.post("/GNImale/addCountry", async (req, res) =>
 {
-    try
-    {
-        const data = await crud.addCountry(req, tableMale);
-        res.status(200);
-        res.send(data);
-    }catch(err)
-    {
-        res.status(400);
-        res.send(data);
-    }
+    console.log(req.body.country)
+    // try
+    // {
+    //     const data = await crud.addCountry(req, tableMale);
+    //     res.status(200);
+    //     res.send(data);
+    // }catch(err)
+    // {
+    //     res.status(400);
+    //     res.send(data);
+    // }
 
 });
 
@@ -91,16 +98,6 @@ app.delete("/GNImale/deleteCountry/:country", async (req, res) =>
         res.status(200);
         res.send(err);
     }
-})
+});
 
-
-// -Custom function to check what type of format is being send to the api.
-function checkContentType(type)
-{
-    if(type == "application/json" )
-    {
-        return true;
-    }
-    return false;
-}
 app.listen(3000);
