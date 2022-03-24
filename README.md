@@ -1,6 +1,10 @@
 # DataProcessing
 Eind opdracht Data-processing
 
+## Installeren
+
+> npm install express
+
 # Updating records format:
 {
     "country":  "Albania",
@@ -16,8 +20,11 @@ Eind opdracht Data-processing
     "Country": "Albania",
     "Year": 2000
 }
+# Deleting Country
+Bij het verwijderen van een land zal er een parameter mee gegeven worden met de route.
 
 # XML request layout
+<?xml version="1.0" encoding="UTF-8" ?>
 <object>
   <country>
            Albania
