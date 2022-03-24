@@ -1,12 +1,7 @@
 const express = require("express"); //Express
-const res = require("express/lib/response");
 const app = express();
-const mysql = require("mysql"); //Mysql
 const Ajv = require("ajv"); //AVJ JSON schema validator
-const { query } = require("express");
-const { resolveSchema } = require("ajv/dist/compile");
 const crud = require("./CRUD");
-const Connection = require("mysql/lib/Connection");
 var xmlparser = require('express-xml-bodyparser');
 
 
@@ -20,23 +15,46 @@ const tableMale = "estimated_gni_male";
 const tableFemale = "estimated_gni_female";
 const tablePerCapita = "estimated_per_capita";
 
+// -JSON schemas 
+const GNI_MaleFemale_schema = require("./JSON_Schemas/JSON_schema_GNI_Male.json");
+const GNI_MaleFemale_schema_single_record = require("./JSON_Schemas/JSON_schema_GNI_Male_single_record.json");
+const GNI_Per_capita_schema = require("./JSON_Schemas/JSON_schema_GNI_per_capita.json");
+
 // - Selecting all data from table.
 // - This endpoint gets all the records that are in the table:
 // # estimated_gni_male
-app.get("/GNImale/allData", async (req, res)=>
+app.post("/GNImale/allData", async (req, res)=>
 {
-    try
+    const valid = validator(req.body);
+    if(valid)
     {
-        const data = await crud.getAllData(tableMale);
-        res.status(200);
-        res.send(data);
-    }catch(err)
-    {
-        res.status(400);
-        res.send(err);
+
     }
+    // try
+    // {
+    //     const data = await crud.getAllData(tableMale);
+    //     res.status(200);
+    //     res.send(data);
+    // }catch(err)
+    // {
+    //     res.status(400);
+    //     res.send(err);
+    // }
     
 });
+
+function validator(body)
+{
+    const JSONValidator = ajv.validate(GNI_MaleFemale_schema, body)
+    const XMLValidator = false;
+    if(JSONValidator || XMLValidator)
+    {
+        return true;
+    }else
+    {
+        return false;
+    }
+}
 
 // -Gets a single record
 app.post("/GNImale/singleRecord", async (req, res) =>

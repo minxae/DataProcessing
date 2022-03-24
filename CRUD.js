@@ -3,9 +3,7 @@ const Ajv = require("ajv");
 const ajv = new Ajv();
 
 //schemas
-const GNI_MaleFemale_schema = require("./JSON_Schemas/JSON_schema_GNI_Male.json");
-const GNI_MaleFemale_schema_single_record = require("./JSON_Schemas/JSON_schema_GNI_Male_single_record.json");
-const GNI_Per_capita_schema = require("./JSON_Schemas/JSON_schema_GNI_per_capita.json");
+
 
 const conn = mysql.createConnection(
     {
@@ -33,24 +31,16 @@ async function getOneSingleRecord(req, tabel)
 {
     return new Promise((res, error) =>
     {
-        const valid = ajv.validate(GNI_MaleFemale_schema_single_record, req.body);
-        if(valid)
-        {
-            const year = req.body[0].Year;
-            const country = req.body[0].Country;
-            
-            const values = [year, table, country];//removing sqlInjections
-            const query = "SELECT `?` FROM ? WHERE Country = ?";
-            conn.query(query, values, function(err, result)
-            {
-                if(err) error("Something went wrong!");
-                res(result)
-            })
-        }else
-        {
-            res("Invalid Json");
-        }
+        const year = req.body[0].Year;
+        const country = req.body[0].Country;
         
+        const values = [year, table, country];//removing sqlInjections
+        const query = "SELECT `?` FROM ? WHERE Country = ?";
+        conn.query(query, values, function(err, result)
+        {
+            if(err) error("Something went wrong!");
+            res(result)
+        });
     });
 }
 async function updateData(req, table)
@@ -58,21 +48,13 @@ async function updateData(req, table)
     return new Promise((res, error) =>
     {
         const data = req.body;
-        const valid = ajv.validate(GNI_MaleFemale_schema, data)
-        if(valid)
-        {
-            const query = makeSqlStringUpdate(data, table);
-            conn.query(query, function(err, result)
-            {   
-                if(err) error("Something went wrong!");
-                res("Updated")
-            });
-            
-        }else
-        {
-            res("JSON invalid");
-        }
-        
+
+        const query = makeSqlStringUpdate(data, table);
+        conn.query(query, function(err, result)
+        {   
+            if(err) error("Something went wrong!");
+            res("Updated")
+        });
     });
 
 }
@@ -80,32 +62,15 @@ async function addCountry(req, table)
 {
     return new Promise((res, error) =>
         {
-            const type = req.headers["content-type"];
-
-            console.log(data);
             const country = req.body.country;
             const values = [country];
-            const valid = ajv.validate(GNI_MaleFemale_schema, data);
             const query = "INSERT INTO "+ table +" (Country) VALUES (?)"
 
-            if(checkContentType(type))
-            {
-                //JSON body
-            }else
-            {
-                //xml body
-            }
-            // if(valid)
-            // {
-            //     conn.query(query, values, function(err,result, fields)
-            //     {   
-            //         if(err) error("Something went wrong!");
-            //         res("Country created: "+ country);
-            //     });
-            // }else
-            // {
-            //     res("Invalid JSON");
-            // }
+            conn.query(query, values, function(err,result, fields)
+            {   
+                if(err) error("Something went wrong!");
+                res("Country created: "+ country);
+            });
         });
 }
 
@@ -155,6 +120,7 @@ function checkContentType(type)
     }
     return false;
 }
+
 
 
 module.exports = {

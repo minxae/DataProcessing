@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="object">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="country" type="xs:string" />
+        <xs:element name="data">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="_1995" type="xs:int" />
+              <xs:element name="_2000" type="xs:int" />
+              <xs:element name="_2005" type="xs:int" />
+              <xs:element name="_2010" type="xs:int" />
+              <xs:element name="_2011" type="xs:int" />
+              <xs:element name="_2012" type="xs:int" />
+              <xs:element name="_2013" type="xs:int" />
+              <xs:element name="_2014" type="xs:int" />
+              <xs:element name="_2015" type="xs:int" />
+              <xs:element name="_2016" type="xs:int" />
+              <xs:element name="_2017" type="xs:int" />
+              <xs:element name="_2018" type="xs:int" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
