@@ -23,23 +23,23 @@ const GNI_Per_capita_schema = require("./JSON_Schemas/JSON_schema_GNI_per_capita
 // - Selecting all data from table.
 // - This endpoint gets all the records that are in the table:
 // # estimated_gni_male
-app.post("/GNImale/allData", async (req, res)=>
+app.get("/GNImale/allData", async (req, res)=>
 {
-    const valid = validator(req.body);
-    if(valid)
-    {
+    // const valid = validator(req.body);
+    // if(valid)
+    // {
 
-    }
-    // try
-    // {
-    //     const data = await crud.getAllData(tableMale);
-    //     res.status(200);
-    //     res.send(data);
-    // }catch(err)
-    // {
-    //     res.status(400);
-    //     res.send(err);
     // }
+    try
+    {
+        const data = await crud.getAllData(tableMale);
+        res.status(200);
+        res.send(data);
+    }catch(err)
+    {
+        res.status(400);
+        res.send(err);
+    }
     
 });
 
