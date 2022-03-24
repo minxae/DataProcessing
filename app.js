@@ -16,7 +16,7 @@ app.use("/GNIPerCapita", GNIPerCapita);
 
 
 //public routes html/js/css
-app.use('/static', express.static('public'));
+app.use('/static', express.static('public'));// -serving static files to the browser
 
 app.get("/home", (req, res) =>
 {   

@@ -2,7 +2,8 @@ body
 {
     height: vh;
     width: vw;
-    background-color: rgba(255, 255, 255, 0.993);
+    color: #252525;
+    background-color: rgb(255, 255, 255);
     font-family: Arial, Helvetica, sans-serif;
 }
 .chart

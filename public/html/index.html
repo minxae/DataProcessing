@@ -20,14 +20,17 @@
     <div class="chart">
         <label>
             <input class="femaleInput" placeholder="Country">
-            <button>Zoeken</button>
+            <button id="buttonFemale">Zoeken</button>
         </label>
-        <canvas id="GNIfemale"></canvas>
+        <div class="femaleChart">   
+            <canvas id="GNIfemale"></canvas>
+        </div>
+        
     </div>
     <div class="chart">
         <label>
             <input class="maleInput" placeholder="Country">
-            <button>Zoeken</button>
+            <button id="buttonMale">Zoeken</button>
         </label>
         <canvas id="GNImale"></canvas>  
     </div>
@@ -37,6 +40,7 @@
         <p>
             In de onderstaande grafiek is het inkomen van een geheel land te zien!
         </p>
+        
         <canvas id="GNIperCapita"></canvas>  
     </div>
 
