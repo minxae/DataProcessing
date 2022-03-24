@@ -15,8 +15,7 @@
             }
         },
         "required": [
-            "Country",
-            "Year"
+            "Country"
         ],
         "additionalProperties": false
     }

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <title>GNI charting</title>
+</head>
+<body>
+    <h1>Estimated GNI per Country</h1>
+    <p>
+        In de grafieken hieronder kunnen we twee verschillende landen met elkaar vergelijken!
+    </p>
+
+    <div class="chart">
+        <label>
+            <input class="femaleInput" placeholder="Country">
+            <button>Zoeken</button>
+        </label>
+        <canvas id="GNIfemale"></canvas>
+    </div>
+    <div class="chart">
+        <label>
+            <input class="maleInput" placeholder="Country">
+            <button>Zoeken</button>
+        </label>
+        <canvas id="GNImale"></canvas>  
+    </div>
+    
+    <div class="GNIPerCapita">
+        <h2>Estimated GNI per Capita</h2>
+        <p>
+            In de onderstaande grafiek is het inkomen van een geheel land te zien!
+        </p>
+        <canvas id="GNIperCapita"></canvas>  
+    </div>
+
+    
+    <script src="/static/js/apiHelper.js"></script>
+    <script src="/static/js/Main.js"></script>
+    
+</body>
+</html>

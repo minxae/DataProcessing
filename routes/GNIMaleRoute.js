@@ -85,6 +85,7 @@ router.put("/updateCountry", async (req, res) =>
         res.send("Data must be send in JSON schema format.")
     }
 });
+
 // -Create new row with data
 router.post("/addCountry", async (req, res) =>
 {

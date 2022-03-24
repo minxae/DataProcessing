@@ -1,0 +1,13 @@
+body
+{
+    height: vh;
+    width: vw;
+    background-color: rgba(255, 255, 255, 0.993);
+    font-family: Arial, Helvetica, sans-serif;
+}
+.chart
+{
+    height: 500px;
+    width: 900px;
+    float: left;
+}

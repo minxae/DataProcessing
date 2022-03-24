@@ -59,7 +59,7 @@ router.post("/singleRecord", async (req, res) =>
 });
 
 // -Updating data from client
-// -Male GNI table
+// -Female GNI table
 router.put("/updateCountry", async (req, res) =>
 {
     const valid = ajv.validate(GNI_MaleFemale_schema, req.body);

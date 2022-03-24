@@ -2,6 +2,7 @@ const mysql = require("mysql"); //Mysql
 const Ajv = require("ajv");
 const ajv = new Ajv();
 
+// -database connection 
 const conn = mysql.createConnection(
     {
         host: '127.0.0.1',
@@ -10,6 +11,7 @@ const conn = mysql.createConnection(
         database: 'income_per_country'  
     });
 
+// -gets all data from selected table
 async function getAllData(table)
 {
     const query = "SELECT * FROM "+ table;
@@ -25,15 +27,14 @@ async function getAllData(table)
     
 }
 
+// -Gets one record from selected country by year
 async function getOneSingleRecord(req, table)
 {
     return new Promise(res =>
     {
-        const year = req.body[0].Year;
         const country = req.body[0].Country;
-        
-        const values = [year,  country];//removing sqlInjections
-        const query = "SELECT `?` FROM "+ table +" WHERE Country = ?";
+        const values = [country];//removing sqlInjections
+        const query = "SELECT * FROM "+ table +" WHERE Country = ?";
         conn.query(query, values, function(err, result)
         {
             if(err)throw err;
@@ -43,13 +44,14 @@ async function getOneSingleRecord(req, table)
     });
 }
 
+// -Updating multiple record or one record.
 async function updateData(req, table)
 {
     return new Promise(res =>
     {
         const data = req.body;
 
-        const query = makeSqlStringUpdate(data, table);
+        const query = makeSqlStringUpdate(data, table);// lets you update multiple records
         conn.query(query, function(err, result)
         {   
             if(err)throw err;
@@ -69,7 +71,7 @@ async function addCountry(req, table)
             conn.query(query, values, function(err,result, fields)
             {   
                 if(err) error("Something went wrong!");
-                res("Country created: "+ country);
+                res("Country created: "+ country);// country that has been created
             });
         });
 }
@@ -84,7 +86,7 @@ async function deleteCountry(req, table)
         conn.query(query, values, function(err)
         {   
             if(err) throw err;
-            res("Deleted record with country: " + country);
+            res("Deleted record with country: " + country);// record the has been deleted from the table
         })
     });
 }

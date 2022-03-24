@@ -62,7 +62,7 @@ router.post("/singleRecord", async (req, res) =>
 });
 
 // -Updating data from client
-// -Male GNI table
+// -GNI per capita table
 router.put("/updateCountry", async (req, res) =>
 {
     const valid = ajv.validate(GNI_Per_capita_schema, req.body);
