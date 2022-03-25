@@ -30,6 +30,22 @@ Deze SQL file kunt u importeren in uw SQL interface applicatie.
 
 URL: https://dev.mysql.com/downloads/workbench/
 
+### Database configuratie
+
+De volgende configuratie is nodig om MYSQL te verbinden met uw SQL interface:
+
+``` javascript
+const conn = mysql.createConnection(
+    {
+        host: '127.0.0.1', //change this to your OWN localhost
+        user: 'root',   //  OWN root
+        password: '1234', // OWN password
+        database: 'income_per_country'  // Doesn't need any change
+    });
+```
+
+<strong>!De blok van code bevind zich in de file CRUD.js boven aan pas dit aan naar uw eigen gegevens!</strong>
+
 # Endpoints and formats :
 
 Hier onder bevinden zich alle routes/endpoints die de API bevat.
