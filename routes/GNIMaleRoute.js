@@ -15,7 +15,6 @@ const tableMale = "estimated_gni_male";
 // -JSON schemas 
 const GNI_MaleFemale_schema = require("../JSON_Schemas/JSON_schema_GNI_Male.json");
 const GNI_MaleFemale_schema_single_record = require("../JSON_Schemas/JSON_schema_GNI_Male_single_record.json");
-const GNI_Per_capita_schema = require("../JSON_Schemas/JSON_schema_GNI_per_capita.json");
 
 // - Selecting all data from table.
 // - This endpoint gets all the records that are in the table:
@@ -111,6 +110,8 @@ router.post("/addCountry", async (req, res) =>
     }
 });
 
+// - Delete a country out of the database
+// - Post the country you want to delete as a PARAMETER in the URL
 router.delete("/deleteCountry/:country", async (req, res) =>
 {
     const valid = ajv.validate(GNI_MaleFemale_schema, req.body);

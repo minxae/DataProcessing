@@ -13,7 +13,7 @@ async function useDataGNIFemale(country, update)
 async function useDataGNIPerCapita(country)
 {
     let call = await apiCaller.getDataFromGNIPerCapita(country);
-    createChart("GNIperCapita", call[0], "line");
+    createChart("GNIperCapita", call[0], "bar");
 }
 
 //This function cleans and sort the array so the createChart funtion can take over its data.
@@ -23,7 +23,7 @@ function createChart(id, json, chartType, update, position)
     let values = [];
     let country = json.Country +" - " + json.Info;
 
-    if(update)
+    if(update) //checking if the current chart need an update or not.
     {
         for(x in json)
         {
@@ -56,6 +56,7 @@ function createChart(id, json, chartType, update, position)
     }
 }
 
+// -Creates a NEW Chart object and pushes it to the given array 
 function chart(id, values, xaxis, title, chartType)
 {
     const data = 
@@ -114,7 +115,7 @@ $("#buttonMale").click(function()
     useDataGNIMale(input, true);
 });
 
-//generate first charts
+// -Generate first charts
 useDataGNIFemale("Canada");
 useDataGNIMale("Canada");
 useDataGNIPerCapita("Albania");

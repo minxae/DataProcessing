@@ -5,10 +5,10 @@ const ajv = new Ajv();
 // -database connection 
 const conn = mysql.createConnection(
     {
-        host: '127.0.0.1',
-        user: 'root',
-        password: '1234',
-        database: 'income_per_country'  
+        host: '127.0.0.1', //change this to your OWN localhost
+        user: 'root',   //  OWN root
+        password: '1234', // OWN password
+        database: 'income_per_country'  // Doesn't need any change
     });
 
 // -gets all data from selected table

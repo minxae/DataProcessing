@@ -1,43 +1,278 @@
 # DataProcessing
-Eind opdracht Data-processing
+### Eind opdracht Data-processing
 
-## Installeren
+In dit bestand wordt de volledige API uitgelegd en hoe u hem moet installeren op uw huidige apparaat.
+
+## Installeren 
 
 Install express
 > <code>npm install express</code>
 
 Install ajv validator
-> npm install ajv
+> <code> npm install ajv </code>
+
+Install mysql
+
+> <code> npm install mysql </code>
 
 Na het installeren kunnen we in de terminal het volgende typen:
-> node app.js
+> <code>node app.js</code>
 
-Als alles goed verloopt zien we geen errors en staat de API op scherp.
+Als alles goed verloopt zien we geen errors en staat de API op scherp. <Strong>Vergeet niet de Git repo te clonen!</strong>
 
-# Updating records format:
-```javascript
-  {
-      "country":  "Albania",
-      "data": 
-          {
-              "2000": 7219
-              
-          }
-  }
-```
+# Endpoints and formats :
 
-# Selecting one single record format:
-{
-    "Country": "Albania",
-    "Year": 2000
-}
-# Deleting Country
-Bij het verwijderen van een land zal er een parameter mee gegeven worden met de route.
+Hier onder bevinden zich alle routes/endpoints die de API bevat.
 
-# XML request layout
-<code>
-  <?xml version="1.0" encoding="UTF-8" ?>
-  <object>
+## GNI male routes
+
+Get all data
+
+> Endpoint: http://localhost:3000/GNImale/allData
+>
+> <code>GET</code>
+
+Get data from one country
+
+> Endpoint: http://localhost:3000/GNImale/singleRecord
+>
+> <code>POST</code>
+>
+> JSON Format : 
+>
+> ```javascript
+> [{
+> 
+>   "Country": "Albania"
+> 
+> }]
+> ```
+
+Update data from one country
+
+> Endpoint: http://localhost:3000/GNImale/updateCountry
+>
+> <code>PUT</code>
+>
+> JSON Format : 
+>
+> ```javascript
+> {
+>       "country":  "Albania",
+>       "data": 
+>           {
+>               "2000": 7219,
+>               "2010": 7219,// optioneel
+>               "2015": 7219,// optioneel
+>               "2018": 7219 // optioneel
+>               
+>           }
+>   }
+> ```
+
+Add a country
+
+> Endpoint: http://localhost:3000/GNImale/addCountry
+>
+> <code>POST</code>
+>
+> JSON Format : 
+>
+> ```javascript
+> [{
+>   "Country": "Albania"
+> }]
+> ```
+
+Delete a country
+
+> Endpoint: http://localhost:3000/GNImale/deleteCountry/:id
+>
+> <code>DELETE</code>
+>
+> JSON Format : 
+>
+> ```javascript
+> // no json is being send but instead given as PARAMETER
+> // @parameter : :id
+> --------------------------------------------------------
+> // Examples : 
+> //	http://localhost:3000/GNImale/deleteCountry/Albania
+> //	http://localhost:3000/GNImale/deleteCountry/Armenia
+> //	http://localhost:3000/GNImale/deleteCountry/Cyprus
+> 
+> 
+> 	
+> ```
+
+## GNI Female routes
+
+Get all data
+
+> Endpoint: http://localhost:3000/GNIFemale/allData
+>
+> <code>GET</code>
+
+Get data from one country
+
+> Endpoint: http://localhost:3000/GNIFemale/singleRecord
+>
+> <code>POST</code>
+>
+> JSON Format : 
+>
+> ```javascript
+> [{
+> 
+>   "Country": "Albania"
+> 
+> }]
+> ```
+
+Update data from one country
+
+> Endpoint: http://localhost:3000/GNIFemale/updateCountry
+>
+> <code>PUT</code>
+>
+> JSON Format : 
+>
+> ```javascript
+> {
+>       "country":  "Albania",
+>       "data": 
+>           {
+>               "2000": 7219,
+>               "2010": 7219,// optioneel
+>               "2015": 7219,// optioneel
+>               "2018": 7219 // optioneel
+>               
+>           }
+>   }
+> ```
+
+Add a country
+
+> Endpoint: http://localhost:3000/GNIFemale/addCountry
+>
+> <code>POST</code>
+>
+> JSON Format : 
+>
+> ```javascript
+> [{
+>   "Country": "Albania"
+> }]
+> ```
+
+Delete a country
+
+> Endpoint: http://localhost:3000/GNIFemale/deleteCountry/:id
+>
+> <code>DELETE</code>
+>
+> JSON Format : 
+>
+> ```javascript
+> // no json is being send but instead given as PARAMETER
+> // @parameter : :id
+> --------------------------------------------------------
+> // Examples : 
+> //	http://localhost:3000/GNImale/deleteCountry/Albania
+> //	http://localhost:3000/GNImale/deleteCountry/Armenia
+> //	http://localhost:3000/GNImale/deleteCountry/Cyprus
+> 
+> 
+> 	
+> ```
+
+## GNI per Capita routes
+
+Get all data
+
+> Endpoint: http://localhost:3000/GNIPerCapita/allData
+>
+> <code>GET</code>
+
+Get data from one country
+
+> Endpoint: http://localhost:3000/GNIPerCapita/singleRecord
+>
+> <code>POST</code>
+>
+> JSON Format : 
+>
+> ```javascript
+> [{
+> 
+>   "Country": "Albania"
+> 
+> }]
+> ```
+
+Update data from one country
+
+> Endpoint: http://localhost:3000/GNIPerCapita/updateCountry
+>
+> <code>PUT</code>
+>
+> JSON Format : 
+>
+> ```javascript
+> {
+>       "country":  "Albania",
+>       "data": 
+>           {
+>               "2000": 7219,
+>               "2010": 7219,// optioneel
+>               "2015": 7219,// optioneel
+>               "2018": 7219 // optioneel
+>               
+>           }
+>   }
+> ```
+
+Add a country
+
+> Endpoint: http://localhost:3000/GNIPerCapita/addCountry
+>
+> <code>POST</code>
+>
+> JSON Format : 
+>
+> ```javascript
+> [{
+>   "Country": "Albania"
+> }]
+> ```
+
+Delete a country
+
+> Endpoint: http://localhost:3000/GNIPerCapita/deleteCountry/:id
+>
+> <code>DELETE</code>
+>
+> JSON Format : 
+>
+> ```javascript
+> // no json is being send but instead given as PARAMETER
+> // @parameter : :id
+> --------------------------------------------------------
+> // Examples : 
+> //	http://localhost:3000/GNImale/deleteCountry/Albania
+> //	http://localhost:3000/GNImale/deleteCountry/Armenia
+> //	http://localhost:3000/GNImale/deleteCountry/Cyprus
+> 
+> 
+> 	
+> ```
+
+# XML request layout 
+
+Vanwege omstandigheden is tot op het heden de functionaliteit om XML als request te sturen nog niet geimplementeerd, dit zal in de toekomst worden toegevoegd.
+
+  ```	<object>
+    <?xml version="1.0" encoding="UTF-8" ?>
     <country>
             Albania
     </country>
@@ -56,4 +291,4 @@ Bij het verwijderen van een land zal er een parameter mee gegeven worden met de 
       <_2018>678</_2018>
     </data>
   </object>
-</code>
+  ```

@@ -1,11 +1,10 @@
 class ApiHelper
 {
-    
     constructer()
     {
-        const error = {"Message": "No data found"};
-    }
 
+    }
+     // - Gets the GNI_female data from one country
     async getDataFromMaleGNI(country)
     {
         const url = "http://localhost:3000/GNImale/singleRecord"
@@ -32,11 +31,10 @@ class ApiHelper
         {
             return {"Message": "No data found"};
         }
-        return data;
-        
-  
 
     }
+
+    // - Gets the GNI_female data from one country
     async getDataFromFemaleGNI(country)
     {
         const url = "http://localhost:3000/GNIFemale/singleRecord"
@@ -61,6 +59,8 @@ class ApiHelper
         return data;
 
     }
+
+    // -Gets all GNI data from one country
     async getDataFromGNIPerCapita(country)
     {
         const url = "http://localhost:3000/GNIPerCapita/singleRecord"

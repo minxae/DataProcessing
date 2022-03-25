@@ -9,13 +9,12 @@ let router = express.Router();
 router.use(xmlparser());
 router.use(express.json());
 
-// -tables
+// - tables
 const tableFemale = "estimated_gni_female";
 
-// -JSON schemas
+// - JSON schemas
 const GNI_MaleFemale_schema = require("../JSON_Schemas/JSON_schema_GNI_Male.json");
 const GNI_MaleFemale_schema_single_record = require("../JSON_Schemas/JSON_schema_GNI_Male_single_record.json");
-const GNI_Per_capita_schema = require("../JSON_Schemas/JSON_schema_GNI_per_capita.json");
 
 router.get("/allData", async (req, res)=>
 {
@@ -32,7 +31,7 @@ router.get("/allData", async (req, res)=>
     
 });
 
-// -Gets a single record
+// - Gets a single record
 router.post("/singleRecord", async (req, res) =>
 {
     const valid = ajv.validate(GNI_MaleFemale_schema_single_record, req.body);
@@ -58,8 +57,8 @@ router.post("/singleRecord", async (req, res) =>
     
 });
 
-// -Updating data from client
-// -Female GNI table
+// - Updating data from client
+// - Female GNI table
 router.put("/updateCountry", async (req, res) =>
 {
     const valid = ajv.validate(GNI_MaleFemale_schema, req.body);
@@ -82,7 +81,7 @@ router.put("/updateCountry", async (req, res) =>
         res.send("Data must be send in JSON schema format.")
     }
 });
-// -Create new row with data
+// - Create new row with data
 router.post("/addCountry", async (req, res) =>
 {
     const valid = ajv.validate(GNI_MaleFemale_schema, req.body);
@@ -107,6 +106,8 @@ router.post("/addCountry", async (req, res) =>
     }
 });
 
+// - Delete a country out of the database
+// - Post the country you want to delete as a PARAMETER in the URL
 router.delete("/deleteCountry/:country", async (req, res) =>
 {
     const valid = ajv.validate(GNI_MaleFemale_schema, req.body);

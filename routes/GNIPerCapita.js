@@ -11,7 +11,7 @@ router.use(express.json());
 
 
 // -tables
-const tableMale = "gni_per_capita";
+const tableGNIperCapita = "gni_per_capita";
 
 // -JSON schemas 
 const GNI_Per_capita_schema = require("../JSON_Schemas/JSON_schema_GNI_per_capita.json");
@@ -24,7 +24,7 @@ router.get("/allData", async (req, res)=>
 {
     try
     {
-        const data = await crud.getAllData(tableMale);
+        const data = await crud.getAllData(tableGNIperCapita);
         res.status(200);
         res.send(data);
     }catch(err)
@@ -44,7 +44,7 @@ router.post("/singleRecord", async (req, res) =>
     {
         try
         {
-            const data = await crud.getOneSingleRecord(req, tableMale);
+            const data = await crud.getOneSingleRecord(req, tableGNIperCapita);
             res.status(200);
             res.send(data);
         }catch(err)
@@ -70,7 +70,7 @@ router.put("/updateCountry", async (req, res) =>
     if(valid)
     {
         try{
-            const data = await crud.updateData(req, tableMale);
+            const data = await crud.updateData(req, tableGNIperCapita);
             res.status(200);
             res.send(data);
         }catch(err)
@@ -94,7 +94,7 @@ router.post("/addCountry", async (req, res) =>
     {
         try
         {
-            const data = await crud.addCountry(req, tableMale);
+            const data = await crud.addCountry(req, tableGNIperCapita);
             res.status(200);
             res.send(data);
         }catch(err)
@@ -110,6 +110,8 @@ router.post("/addCountry", async (req, res) =>
     }
 });
 
+// - Delete a country out of the database
+// - Post the country you want to delete as a PARAMETER in the URL
 router.delete("/deleteCountry/:country", async (req, res) =>
 {
     const valid = ajv.validate(GNI_Per_capita_schema, req.body);
@@ -117,7 +119,7 @@ router.delete("/deleteCountry/:country", async (req, res) =>
     {
         try
         {
-            const data = await crud.deleteCountry(req, tableMale);
+            const data = await crud.deleteCountry(req, tableGNIperCapita);
             res.status(200);
             res.send(data);
         }catch(err)
