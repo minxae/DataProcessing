@@ -20,6 +20,16 @@ Na het installeren kunnen we in de terminal het volgende typen:
 
 Als alles goed verloopt zien we geen errors en staat de API op scherp. <Strong>Vergeet niet de Git repo te clonen!</strong>
 
+# Database importing
+
+De database export staat in de map "database info\database exports\income_per_country.sql"
+
+Deze SQL file kunt u importeren in uw SQL interface applicatie.
+
+<strong>In het huidige project is er gebruik gemaakt van SQL Workbench 8.0 CE</strong>
+
+URL: https://dev.mysql.com/downloads/workbench/
+
 # Endpoints and formats :
 
 Hier onder bevinden zich alle routes/endpoints die de API bevat.
