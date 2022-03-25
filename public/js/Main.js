@@ -29,7 +29,7 @@ function createChart(id, json, chartType, update, position)
         {
             if(x == "Country")
             { 
-                updateChart(position, values, xaxis);
+                updateChart(position, values, country);
                 return "chart created"
 
             }else
@@ -84,10 +84,10 @@ function chart(id, values, xaxis, title, chartType)
 }
 
 // -Updating chart with new data form a country
-function updateChart(position, values)
+function updateChart(position, values, country)
 {
     let chart = charts[position];
-
+    chart.data.datasets[0].label = country;
     chart.data.datasets[0].data = [];
     for(x in values)
     {
