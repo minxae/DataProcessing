@@ -87,6 +87,7 @@ function chart(id, values, xaxis, title, chartType)
 function updateChart(position, values, country)
 {
     let chart = charts[position];
+    console.log(chart);
     chart.data.datasets[0].label = country;
     chart.data.datasets[0].data = [];
     for(x in values)
@@ -118,7 +119,7 @@ $("#buttonMale").click(function()
 // -Generate first charts
 useDataGNIFemale("Canada");
 useDataGNIMale("Canada");
-useDataGNIPerCapita("Albania");
+useDataGNIPerCapita("Cyprus");
 
 
 

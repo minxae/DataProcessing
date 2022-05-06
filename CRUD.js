@@ -56,26 +56,27 @@ async function updateData(req, table)
     return new Promise(res =>
     {
         const data = req.body;
-        const values = [];
+        const values = [req.body.country];
         const query = makeSqlStringUpdate(data, table);// lets you update multiple records
         const checkQuery = "SELECT * FROM " + table + " WHERE Country = ?"
 
             conn.query(checkQuery, values, function(err, result)
             {
                 if(result.length > 0)
-                {
-                    object.Status = 404;
-                    object.Message = "Country already exists, you can only add unique countries.";
-                    res(object)
-                }else
-                {
+                {  
                     conn.query(query, values, function(err, result, fields)
                     {   
                         if(err)throw err;
-                        object.Status = 202;
-                        object.Message = "Country : " + country + " created with succes.";
+                        object.Status = 200;
+                        object.Message = "Updated: " + req.body.country ;
                         res(object);
                     });
+                    
+                }else
+                {
+                    object.Status = 404;
+                    object.Message = "Country doesn't exist, maybe the country name is wrong.";
+                    res(object)
                 }
             });
     });

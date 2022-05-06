@@ -43,7 +43,8 @@ router.get("/:country", async (req, res) =>
         if(data.length == 0)// Country doesnt exist!
         {
             res.status(404);
-            res.send("No data found with country " + req.params.country);
+            res.statusMessage("No data found with country " + req.params.country);
+            res.send();
         }else
         {
             res.status(200);
@@ -62,14 +63,13 @@ router.get("/:country", async (req, res) =>
 router.put("/", async (req, res) =>
 {
     const valid = ajv.validate(GNI_MaleFemale_schema, req.body);
-
     if(valid)
     {
         try
         {
             const data = await crud.updateData(req, tableFemale);
-            res.status(200);
-            res.send(data);
+            res.status(data.Status);
+            res.send(data.Message);
         }catch(err)
         {
             res.status(400);
@@ -77,6 +77,7 @@ router.put("/", async (req, res) =>
         }
     }else
     {
+        console.log
         res.statusMessage = "JSON invalid";
         res.status(400);
         res.send("Data must be send in JSON schema format.")
@@ -86,6 +87,7 @@ router.put("/", async (req, res) =>
 router.post("/", async (req, res) =>
 {
     const valid = ajv.validate(GNI_create_country, req.body)
+
     if(valid)
     {
         try
@@ -103,8 +105,7 @@ router.post("/", async (req, res) =>
         res.statusMessage = "JSON invalid";
         res.status(400);
         res.send("Data must be send in JSON schema format.")
-    }
-        
+    }    
 });
 
 // - Delete a country out of the database

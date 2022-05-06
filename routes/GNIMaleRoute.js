@@ -14,6 +14,7 @@ const tableMale = "estimated_gni_male";
 
 // -JSON schemas 
 const GNI_MaleFemale_schema = require("../JSON_Schemas/JSON_schema_GNI_FemaleMale.json");
+const GNI_create_country = require("../JSON_Schemas/JSON_schema_GNI_create_country.json");
 
 // - Selecting all data from table.
 // - This endpoint gets all the records that are in the table:
@@ -47,10 +48,12 @@ router.get("/:country", async (req, res) =>
     try
     {
         const data = await crud.getOneSingleRecord(req, tableMale);
+        console.log(data);
         if(data.length == 0)
         {
-            res.status(400);
-            res.send("No data found with country " + req.params.country);
+            
+            res.status(404);
+            res.send("ADSSSSSSSS");
         }else
         {
             res.status(200);
@@ -76,8 +79,8 @@ router.put("/", async (req, res) =>
         try
         {
             const data = await crud.updateData(req, tableMale);
-            res.status(200);
-            res.send(data);
+            res.status(data.Status);
+            res.send(data.Message);
         }catch(err)
         {
             res.status(400);
@@ -92,17 +95,27 @@ router.put("/", async (req, res) =>
 });
 
 // -Create new country row with data
-router.post("/:country", async (req, res) =>
+router.post("/", async (req, res) =>
 {
-    try
+    const valid = ajv.validate(GNI_create_country, req.body)
+    
+    if(valid)
     {
-        const data = await crud.addCountry(req, tableMale);
-        res.status(data.Status);
-        res.send(data.Message);
-    }catch(err)
+        try
+        {
+            const data = await crud.addCountry(req, tableMale);
+            res.status(data.Status);
+            res.send(data.Message);
+        }catch(err)
+        {
+            res.status(400);
+            res.send(err);
+        }
+    }else
     {
+        res.statusMessage = "JSON invalid";
         res.status(400);
-        res.send(err);
+        res.send("Data must be send in JSON schema format.")
     }
 });
 

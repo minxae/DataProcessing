@@ -6,7 +6,7 @@
     "express-xml-bodyparser": "^0.3.0",
     "jsonschema": "^1.4.0",
     "mysql": "^2.18.1",
-    "nodemon": "^2.0.15",
+    "nodemon": "^2.0.16",
     "xml2js": "^0.4.23"
   }
 }

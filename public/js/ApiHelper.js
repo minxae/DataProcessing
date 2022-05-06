@@ -7,55 +7,39 @@ class ApiHelper
      // - Gets the GNI_female data from one country
     async getDataFromMaleGNI(country)
     {
-        const url = "http://localhost:3000/GNImale/singleRecord"
-        const JsonObject = 
-        [{
-            "Country" : country
-        }]
+        const url = "http://localhost:3000/GNImale/" + country;
         const options = 
         {
-            method: 'POST',
+            method: 'GET',
             headers: 
             {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(JsonObject)
+            }
         }
         const response  = await fetch(url, options)
         const data  = await response.json();
-        if(data.length > 0)
-        {
-            return data;
-        }else 
-        {
-            return {"Message": "No data found"};
-        }
 
+        return data;
     }
 
     // - Gets the GNI_female data from one country
     async getDataFromFemaleGNI(country)
     {
-        const url = "http://localhost:3000/GNIFemale/singleRecord"
-        const JsonObject = 
-        [{
-            "Country" : country
-        }]
+        const url = "http://localhost:3000/GNIFemale/" + country;
         const options = 
         {
-            method: 'POST',
+            method: 'GET',
             headers: 
             {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(JsonObject)
+            }
         }
         const response  = await fetch(url, options)
         const data  = await response.json();
-        console.log(data);
 
+        console.log(data)
         return data;
 
     }
@@ -63,28 +47,21 @@ class ApiHelper
     // -Gets all GNI data from one country
     async getDataFromGNIPerCapita(country)
     {
-        const url = "http://localhost:3000/GNIPerCapita/singleRecord"
-        const JsonObject = 
-        [{
-            "Country" : country
-        }]
+        const url = "http://localhost:3000/GNIPerCapita/" + country;
         const options = 
         {
-            method: 'POST',
+            method: 'GET',
             headers: 
             {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(JsonObject)
+            }
         }
         const response  = await fetch(url, options)
         const data  = await response.json();
-        console.log(data);
 
+        console.log(data)
         return data;
-
     }
 
-    
 }
