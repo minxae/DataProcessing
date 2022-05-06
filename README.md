@@ -20,6 +20,12 @@ Na het installeren kunnen we in de terminal het volgende typen:
 
 Als alles goed verloopt zien we geen errors en staat de API op scherp. <Strong>Vergeet niet de Git repo te clonen!</strong>
 
+## home page
+
+Om vervolgens naar de home pagina te gaan voeren we de volgende URL in:
+
+> <code>http://localhost:3000/home</code>
+
 # Database importing
 
 De database export staat in de map "database info\database exports\income_per_country.sql"
@@ -54,29 +60,19 @@ Hier onder bevinden zich alle routes/endpoints die de API bevat.
 
 Get all data
 
-> Endpoint: http://localhost:3000/GNImale/allData
+> Endpoint: http://localhost:3000/GNImale/
 >
 > <code>GET</code>
 
 Get data from one country
 
-> Endpoint: http://localhost:3000/GNImale/singleRecord
+> Endpoint: http://localhost:3000/GNImale/:country
 >
-> <code>POST</code>
->
-> JSON Format : 
->
-> ```javascript
-> [{
-> 
->   "Country": "Albania"
-> 
-> }]
-> ```
+> <code>GET</code>
 
 Update data from one country
 
-> Endpoint: http://localhost:3000/GNImale/updateCountry
+> Endpoint: http://localhost:3000/GNImale/
 >
 > <code>PUT</code>
 >
@@ -91,28 +87,28 @@ Update data from one country
 >               "2010": 7219,// optioneel
 >               "2015": 7219,// optioneel
 >               "2018": 7219 // optioneel
->               
+>               "Info": "Female/male" // optioneel 
 >           }
 >   }
 > ```
 
 Add a country
 
-> Endpoint: http://localhost:3000/GNImale/addCountry
+> Endpoint: http://localhost:3000/GNImale/
 >
 > <code>POST</code>
 >
 > JSON Format : 
 >
 > ```javascript
-> [{
->   "Country": "Albania"
-> }]
+> {
+>   "country": "Albania"
+> }
 > ```
 
 Delete a country
 
-> Endpoint: http://localhost:3000/GNImale/deleteCountry/:id
+> Endpoint: http://localhost:3000/GNImale/:country
 >
 > <code>DELETE</code>
 >
@@ -120,14 +116,12 @@ Delete a country
 >
 > ```javascript
 > // no json is being send but instead given as PARAMETER
-> // @parameter : :id
+> // @parameter : :country
 > --------------------------------------------------------
 > // Examples : 
-> //	http://localhost:3000/GNImale/deleteCountry/Albania
-> //	http://localhost:3000/GNImale/deleteCountry/Armenia
-> //	http://localhost:3000/GNImale/deleteCountry/Cyprus
-> 
-> 
+> //	http://localhost:3000/GNImale/Albania
+> //	http://localhost:3000/GNImale/Armenia
+> //	http://localhost:3000/GNImale/Cyprus
 > 	
 > ```
 
@@ -135,29 +129,19 @@ Delete a country
 
 Get all data
 
-> Endpoint: http://localhost:3000/GNIFemale/allData
+> Endpoint: http://localhost:3000/GNIFemale/
 >
 > <code>GET</code>
 
 Get data from one country
 
-> Endpoint: http://localhost:3000/GNIFemale/singleRecord
+> Endpoint: http://localhost:3000/GNIFemale/:country
 >
-> <code>POST</code>
->
-> JSON Format : 
->
-> ```javascript
-> [{
-> 
->   "Country": "Albania"
-> 
-> }]
-> ```
+> <code>GET</code>
 
 Update data from one country
 
-> Endpoint: http://localhost:3000/GNIFemale/updateCountry
+> Endpoint: http://localhost:3000/GNIFemale/
 >
 > <code>PUT</code>
 >
@@ -172,28 +156,28 @@ Update data from one country
 >               "2010": 7219,// optioneel
 >               "2015": 7219,// optioneel
 >               "2018": 7219 // optioneel
->               
+>               "Info": "Female/male" // optioneel 
 >           }
 >   }
 > ```
 
 Add a country
 
-> Endpoint: http://localhost:3000/GNIFemale/addCountry
+> Endpoint: http://localhost:3000/GNIFemale/
 >
 > <code>POST</code>
 >
 > JSON Format : 
 >
 > ```javascript
-> [{
->   "Country": "Albania"
-> }]
+> {
+>   "country": "Albania"
+> }
 > ```
 
 Delete a country
 
-> Endpoint: http://localhost:3000/GNIFemale/deleteCountry/:id
+> Endpoint: http://localhost:3000/GNIFemale/:country
 >
 > <code>DELETE</code>
 >
@@ -204,11 +188,9 @@ Delete a country
 > // @parameter : :id
 > --------------------------------------------------------
 > // Examples : 
-> //	http://localhost:3000/GNImale/deleteCountry/Albania
-> //	http://localhost:3000/GNImale/deleteCountry/Armenia
-> //	http://localhost:3000/GNImale/deleteCountry/Cyprus
-> 
-> 
+> //	http://localhost:3000/GNImale/Albania
+> //	http://localhost:3000/GNImale/Armenia
+> //	http://localhost:3000/GNImale/Cyprus
 > 	
 > ```
 
@@ -216,29 +198,19 @@ Delete a country
 
 Get all data
 
-> Endpoint: http://localhost:3000/GNIPerCapita/allData
+> Endpoint: http://localhost:3000/GNIPerCapita/
 >
 > <code>GET</code>
 
 Get data from one country
 
-> Endpoint: http://localhost:3000/GNIPerCapita/singleRecord
+> Endpoint: http://localhost:3000/GNIPerCapita/:country
 >
-> <code>POST</code>
->
-> JSON Format : 
->
-> ```javascript
-> [{
-> 
->   "Country": "Albania"
-> 
-> }]
-> ```
+> <code>GET</code>
 
 Update data from one country
 
-> Endpoint: http://localhost:3000/GNIPerCapita/updateCountry
+> Endpoint: http://localhost:3000/GNIPerCapita/
 >
 > <code>PUT</code>
 >
@@ -253,28 +225,28 @@ Update data from one country
 >               "2010": 7219,// optioneel
 >               "2015": 7219,// optioneel
 >               "2018": 7219 // optioneel
->               
+>               "Info": "Female/male" // optioneel 
 >           }
 >   }
 > ```
 
 Add a country
 
-> Endpoint: http://localhost:3000/GNIPerCapita/addCountry
+> Endpoint: http://localhost:3000/GNIPerCapita/
 >
 > <code>POST</code>
 >
 > JSON Format : 
 >
 > ```javascript
-> [{
+> {
 >   "Country": "Albania"
-> }]
+> }
 > ```
 
 Delete a country
 
-> Endpoint: http://localhost:3000/GNIPerCapita/deleteCountry/:id
+> Endpoint: http://localhost:3000/GNIPerCapita/:country
 >
 > <code>DELETE</code>
 >
@@ -285,9 +257,9 @@ Delete a country
 > // @parameter : :id
 > --------------------------------------------------------
 > // Examples : 
-> //	http://localhost:3000/GNImale/deleteCountry/Albania
-> //	http://localhost:3000/GNImale/deleteCountry/Armenia
-> //	http://localhost:3000/GNImale/deleteCountry/Cyprus
+> //	http://localhost:3000/GNImale/Albania
+> //	http://localhost:3000/GNImale/Armenia
+> //	http://localhost:3000/GNImale/Cyprus
 > 
 > 
 > 	
@@ -318,4 +290,3 @@ Vanwege omstandigheden is tot op het heden de functionaliteit om XML als request
     </data>
   </object>
   ```
-  Made by Bram Jansen
