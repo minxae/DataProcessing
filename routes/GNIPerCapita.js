@@ -15,18 +15,25 @@ const tableGNIperCapita = "gni_per_capita";
 
 // -JSON schemas 
 const GNI_Per_capita_schema = require("../JSON_Schemas/JSON_schema_GNI_per_capita.json");
-const GNI_MaleFemale_schema_single_record = require("../JSON_Schemas/JSON_schema_GNI_Male_single_record.json");
 
 // - Selecting all data from table.
 // - This endpoint gets all the records that are in the table:
 // # estimated_gni_male
-router.get("/allData", async (req, res)=>
+router.get("/", async (req, res)=>
 {
     try
     {
         const data = await crud.getAllData(tableGNIperCapita);
-        res.status(200);
-        res.send(data);
+        if(data.length == 0)
+        {
+            res.status(404);
+            res.send("No records found")
+        }else
+        { 
+            res.status(200);
+            res.send(data);
+        }
+        
     }catch(err)
     {
         res.status(400);
@@ -36,34 +43,33 @@ router.get("/allData", async (req, res)=>
 });
 
 // -Gets a single record
-router.post("/singleRecord", async (req, res) =>
+router.get("/:country", async (req, res) =>
 {
-    const valid = ajv.validate(GNI_MaleFemale_schema_single_record, req.body);
-     
-    if(valid)
+    try
     {
-        try
-        {
-            const data = await crud.getOneSingleRecord(req, tableGNIperCapita);
-            res.status(200);
-            res.send(data);
-        }catch(err)
+        const data = await crud.getOneSingleRecord(req, tableGNIperCapita);
+        console.log(data)
+        if(data.length == 0)
         {
             res.status(400);
-            res.send(err);
+            res.send("No data found with country " + req.params.country);
+        }else
+        {
+            res.status(200);
+            res.send(data)
         }
-    }else
+    }
+    catch(err)
     {
-        res.statusMessage = "JSON invalid";
         res.status(400);
-        res.send("Data must be send in JSON schema format.")
+        res.send(err);
     }
     
 });
 
 // -Updating data from client
 // -GNI per capita table
-router.put("/updateCountry", async (req, res) =>
+router.put("/", async (req, res) =>
 {
     const valid = ajv.validate(GNI_Per_capita_schema, req.body);
 
@@ -86,52 +92,33 @@ router.put("/updateCountry", async (req, res) =>
     }
 });
 // -Create new row with data
-router.post("/addCountry", async (req, res) =>
+router.post("/", async (req, res) =>
 {
-    const valid = ajv.validate(GNI_Per_capita_schema, req.body);
-
-    if(valid)
+    try
     {
-        try
-        {
-            const data = await crud.addCountry(req, tableGNIperCapita);
-            res.status(200);
-            res.send(data);
-        }catch(err)
-        {
-            res.status(400);
-            res.send(data);
-        }
-    }else
+        const data = await crud.addCountry(req, tableGNIperCapita);
+        res.status(data.Status);
+        res.send(data.Message);
+    }catch(err)
     {
-        res.statusMessage = "JSON invalid";
         res.status(400);
-        res.send("Data must be send in JSON schema format.")
+        res.send(err);
     }
 });
 
 // - Delete a country out of the database
 // - Post the country you want to delete as a PARAMETER in the URL
-router.delete("/deleteCountry/:country", async (req, res) =>
+router.delete("/:country", async (req, res) =>
 {
-    const valid = ajv.validate(GNI_Per_capita_schema, req.body);
-    if(valid)
+    try
     {
-        try
-        {
-            const data = await crud.deleteCountry(req, tableGNIperCapita);
-            res.status(200);
-            res.send(data);
-        }catch(err)
-        {
-            res.status(200);
-            res.send(err);
-        }
-    }else
+        const data = await crud.deleteCountry(req, tableFemale);
+        res.status(data.Status);
+        res.send(data.Message);
+    }catch(err)
     {
-        res.statusMessage = "JSON invalid";
-        res.status(400);
-        res.send("Data must be send in JSON schema format.")
+        res.status(400)
+        res.send(err)
     }
 });
 

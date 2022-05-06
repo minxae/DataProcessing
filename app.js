@@ -2,7 +2,7 @@ const express = require("express"); //Express
 const app = express();
 const path = require("path");
 
-const GNImale = require("./routes/GNIMaleRoute.js");
+const GNIMale = require("./routes/GNIMaleRoute.js");
 const GNIFemale = require("./routes/GNIFemaleRoute.js");
 const GNIPerCapita = require("./routes/GNIPerCapita.js");
 
@@ -10,7 +10,7 @@ const GNIPerCapita = require("./routes/GNIPerCapita.js");
 const home = require("./public_routes/home.js");
 
 // -routes
-app.use("/GNImale", GNImale);
+app.use("/GNIMale", GNIMale);
 app.use("/GNIFemale", GNIFemale);
 app.use("/GNIPerCapita", GNIPerCapita);
 

@@ -13,10 +13,12 @@ router.use(express.json());
 const tableFemale = "estimated_gni_female";
 
 // - JSON schemas
-const GNI_MaleFemale_schema = require("../JSON_Schemas/JSON_schema_GNI_Male.json");
-const GNI_MaleFemale_schema_single_record = require("../JSON_Schemas/JSON_schema_GNI_Male_single_record.json");
+const GNI_MaleFemale_schema = require("../JSON_Schemas/JSON_schema_GNI_FemaleMale.json");
+const GNI_create_country = require("../JSON_Schemas/JSON_schema_GNI_create_country.json");
+const { response } = require("express");
 
-router.get("/allData", async (req, res)=>
+// - Gets all data from GNI Female dataset.
+router.get("/", async (req, res)=>
 {
     try
     {
@@ -32,95 +34,45 @@ router.get("/allData", async (req, res)=>
 });
 
 // - Gets a single record
-router.post("/singleRecord", async (req, res) =>
+router.get("/:country", async (req, res) =>
 {
-    const valid = ajv.validate(GNI_MaleFemale_schema_single_record, req.body);
-     
-    if(valid)
+    try
     {
-        try
+        const data = await crud.getOneSingleRecord(req, tableFemale);
+        console.log(data)
+        if(data.length == 0)// Country doesnt exist!
         {
-            const data = await crud.getOneSingleRecord(req, tableFemale);
+            res.status(404);
+            res.send("No data found with country " + req.params.country);
+        }else
+        {
             res.status(200);
-            res.send(data);
-        }catch(err)
-        {
-            res.status(400);
-            res.send(err);
+            res.send(data)
         }
-    }else
-    {
-        res.statusMessage = "JSON invalid";
-        res.status(400);
-        res.send("Data must be send in JSON schema format.")
     }
-    
+    catch(err)
+    {
+        res.status(400);
+        res.send(err);
+    }
 });
 
 // - Updating data from client
 // - Female GNI table
-router.put("/updateCountry", async (req, res) =>
+router.put("/", async (req, res) =>
 {
     const valid = ajv.validate(GNI_MaleFemale_schema, req.body);
 
     if(valid)
     {
-        try{
+        try
+        {
             const data = await crud.updateData(req, tableFemale);
             res.status(200);
             res.send(data);
         }catch(err)
         {
             res.status(400);
-            res.send(data);
-        }
-    }else
-    {
-        res.statusMessage = "JSON invalid";
-        res.status(400);
-        res.send("Data must be send in JSON schema format.")
-    }
-});
-// - Create new row with data
-router.post("/addCountry", async (req, res) =>
-{
-    const valid = ajv.validate(GNI_MaleFemale_schema, req.body);
-
-    if(valid)
-    {
-        try
-        {
-            const data = await crud.addCountry(req, tableFemale);
-            res.status(200);
-            res.send(data);
-        }catch(err)
-        {
-            res.status(400);
-            res.send(data);
-        }
-    }else
-    {
-        res.statusMessage = "JSON invalid";
-        res.status(400);
-        res.send("Data must be send in JSON schema format.")
-    }
-});
-
-// - Delete a country out of the database
-// - Post the country you want to delete as a PARAMETER in the URL
-router.delete("/deleteCountry/:country", async (req, res) =>
-{
-    const valid = ajv.validate(GNI_MaleFemale_schema, req.body);
-    if(valid)
-    {
-        try
-        {
-            const data = await crud.deleteCountry(req, tableFemale);
-            res.status(200);
-            res.send(data);
-        }catch(err)
-        {
-            res.status(200);
             res.send(err);
         }
     }else
@@ -128,6 +80,46 @@ router.delete("/deleteCountry/:country", async (req, res) =>
         res.statusMessage = "JSON invalid";
         res.status(400);
         res.send("Data must be send in JSON schema format.")
+    }
+});
+// - Create new country row with data
+router.post("/", async (req, res) =>
+{
+    const valid = ajv.validate(GNI_create_country, req.body)
+    if(valid)
+    {
+        try
+        {
+            const data = await crud.addCountry(req, tableFemale);
+            res.status(data.Status);
+            res.send(data.Message);
+        }catch(err)
+        {
+            res.status(400);
+            res.send(err);
+        }
+    }else
+    {
+        res.statusMessage = "JSON invalid";
+        res.status(400);
+        res.send("Data must be send in JSON schema format.")
+    }
+        
+});
+
+// - Delete a country out of the database
+// - Post the country you want to delete as a PARAMETER in the URL
+router.delete("/:country", async (req, res) =>
+{
+    try
+    {
+        const data = await crud.deleteCountry(req, tableFemale);
+        res.status(data.Status);
+        res.send(data.Message);
+    }catch(err)
+    {
+        res.status(400)
+        res.send(err)
     }
 });
 

@@ -11,6 +11,13 @@ const conn = mysql.createConnection(
         database: 'income_per_country'  // Doesn't need any change
     });
 
+// - return object 
+const object = 
+        {
+            "Status": 404,
+            "Message" : ""
+        }
+
 // -gets all data from selected table
 async function getAllData(table)
 {
@@ -32,14 +39,13 @@ async function getOneSingleRecord(req, table)
 {
     return new Promise(res =>
     {
-        const country = req.body[0].Country;
-        const values = [country];//removing sqlInjections
+        const country = req.params.country;
+        const values = [country]; //removing sqlInjections
         const query = "SELECT * FROM "+ table +" WHERE Country = ?";
         conn.query(query, values, function(err, result)
         {
             if(err)throw err;
-            console.log(result)
-            res(result)
+            res(result);
         });
     });
 }
@@ -50,13 +56,28 @@ async function updateData(req, table)
     return new Promise(res =>
     {
         const data = req.body;
-
+        const values = [];
         const query = makeSqlStringUpdate(data, table);// lets you update multiple records
-        conn.query(query, function(err, result)
-        {   
-            if(err)throw err;
-            res("Updated");
-        });
+        const checkQuery = "SELECT * FROM " + table + " WHERE Country = ?"
+
+            conn.query(checkQuery, values, function(err, result)
+            {
+                if(result.length > 0)
+                {
+                    object.Status = 404;
+                    object.Message = "Country already exists, you can only add unique countries.";
+                    res(object)
+                }else
+                {
+                    conn.query(query, values, function(err, result, fields)
+                    {   
+                        if(err)throw err;
+                        object.Status = 202;
+                        object.Message = "Country : " + country + " created with succes.";
+                        res(object);
+                    });
+                }
+            });
     });
 
 }
@@ -68,10 +89,25 @@ async function addCountry(req, table)
             const values = [country];
             const query = "INSERT INTO "+ table +" (Country) VALUES (?)"
 
-            conn.query(query, values, function(err,result, fields)
-            {   
-                if(err) error("Something went wrong!");
-                res("Country created: "+ country);// country that has been created
+            const checkQuery = "SELECT * FROM " + table + " WHERE Country = ?"
+
+            conn.query(checkQuery, values, function(err, result)
+            {
+                if(result.length > 0)
+                {
+                    object.Status = 404;
+                    object.Message = "Country already exists, you can only add unique countries.";
+                    res(object)
+                }else
+                {
+                    conn.query(query, values, function(err, result, fields)
+                    {   
+                        if(err)throw err;
+                        object.Status = 202;
+                        object.Message = "Country : " + country + " created with succes.";
+                        res(object);
+                    });
+                }
             });
         });
 }
@@ -83,13 +119,29 @@ async function deleteCountry(req, table)
     {
         const values = [country]
         const query = "DELETE FROM " + table + " WHERE Country = ?"
-        conn.query(query, values, function(err)
-        {   
-            if(err) throw err;
-            res("Deleted record with country: " + country);// record the has been deleted from the table
-        })
+        const checkQuery = "SELECT * FROM " + table + " WHERE Country = ?"
+
+        conn.query(checkQuery, values, function(err, result)
+            {
+                if(result.length > 0)
+                {
+                    conn.query(query, values, function(err, result, fields)
+                    {   
+                        if(err)throw err;
+                        object.Status = 200;
+                        object.Message = "Country : " + country + " deleted with succes.";
+                        res(object);
+                    });
+                }else
+                {
+                    object.Status = 204;
+                    object.Message = "Country doesn't exist.";
+                    res(object);
+                }
+            });
     });
 }
+
 
 // -This function is used to update multiple records.
 // -The amount of records depends on how many the user wants to update at once.
@@ -104,7 +156,7 @@ function makeSqlStringUpdate(object, table)
         {
             for(year in object[x])
             {
-                query = query + "`" + year + "`" + " = " + object[x][year] + " ,";
+                query = query + "`" + year + "`" + " = " + "'" + object[x][year] +"'" + " ,";
             }
         }
     }
