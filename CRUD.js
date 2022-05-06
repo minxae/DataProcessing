@@ -104,7 +104,7 @@ async function addCountry(req, table)
                     conn.query(query, values, function(err, result, fields)
                     {   
                         if(err)throw err;
-                        object.Status = 202;
+                        object.Status = 201;
                         object.Message = "Country : " + country + " created with succes.";
                         res(object);
                     });

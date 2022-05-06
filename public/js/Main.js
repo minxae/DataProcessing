@@ -101,17 +101,32 @@ function updateChart(position, values, country)
      chart.update();
 }
 
+// -Gets all countries for the select above the graphs.
+async function getAllCountries()
+{
+    let call = await apiCaller.getAllCountries();
+    let select = $(".femaleInput");
+
+    for(x in call)
+    {
+        let country = call[x]["Country"];
+
+        let element = $("<option value='"+ country +"'>"+ country +"</option>");
+        select.append(element);
+    }
+}
+
 // -Event handlers 
 $("#buttonFemale").click(function()
 {
-    let input = $(".femaleInput").val();
+    let input = $(".femaleValue").val();
 
     useDataGNIFemale(input, true);
 });
 
 $("#buttonMale").click(function()
 {
-    let input = $(".maleInput").val();
+    let input = $(".maleValue").val();
 
     useDataGNIMale(input, true);
 });
@@ -120,6 +135,7 @@ $("#buttonMale").click(function()
 useDataGNIFemale("Canada");
 useDataGNIMale("Canada");
 useDataGNIPerCapita("Cyprus");
+getAllCountries();
 
 
 

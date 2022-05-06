@@ -43,8 +43,7 @@ router.get("/:country", async (req, res) =>
         if(data.length == 0)// Country doesnt exist!
         {
             res.status(404);
-            res.statusMessage("No data found with country " + req.params.country);
-            res.send();
+            res.send("Country you are trying to search doesn't exist.");
         }else
         {
             res.status(200);
@@ -77,8 +76,6 @@ router.put("/", async (req, res) =>
         }
     }else
     {
-        console.log
-        res.statusMessage = "JSON invalid";
         res.status(400);
         res.send("Data must be send in JSON schema format.")
     }
@@ -102,7 +99,6 @@ router.post("/", async (req, res) =>
         }
     }else
     {
-        res.statusMessage = "JSON invalid";
         res.status(400);
         res.send("Data must be send in JSON schema format.")
     }    

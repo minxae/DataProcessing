@@ -9,12 +9,12 @@ let router = express.Router();
 router.use(xmlparser());
 router.use(express.json());
 
-
 // -tables
 const tableGNIperCapita = "gni_per_capita";
 
 // -JSON schemas 
 const GNI_Per_capita_schema = require("../JSON_Schemas/JSON_schema_GNI_per_capita.json");
+const GNI_create_country = require("../JSON_Schemas/JSON_schema_GNI_create_country.json");
 
 // - Selecting all data from table.
 // - This endpoint gets all the records that are in the table:
@@ -51,8 +51,8 @@ router.get("/:country", async (req, res) =>
         console.log(data)
         if(data.length == 0)
         {
-            res.status(400);
-            res.send("No data found with country " + req.params.country);
+            res.status(404);
+            res.send("Country you are trying to search doesn't exist.");
         }else
         {
             res.status(200);
@@ -86,7 +86,6 @@ router.put("/", async (req, res) =>
         }
     }else
     {
-        res.statusMessage = "JSON invalid";
         res.status(400);
         res.send("Data must be send in JSON schema format.")
     }
@@ -94,15 +93,24 @@ router.put("/", async (req, res) =>
 // -Create new row with data
 router.post("/", async (req, res) =>
 {
-    try
+    const valid = ajv.validate(GNI_create_country, req.body)
+
+    if(valid)
     {
-        const data = await crud.addCountry(req, tableGNIperCapita);
-        res.status(data.Status);
-        res.send(data.Message);
-    }catch(err)
+        try
+        {
+            const data = await crud.addCountry(req, tableGNIperCapita);
+            res.status(data.Status);
+            res.send(data.Message);
+        }catch(err)
+        {
+            res.status(400);
+            res.send(err);
+        }
+    }else
     {
         res.status(400);
-        res.send(err);
+        res.send("Data must be send in JSON schema format.")
     }
 });
 

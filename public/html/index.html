@@ -16,7 +16,7 @@
     <p>
         In de grafieken hieronder kunnen we twee verschillende landen met elkaar vergelijken!<br><br>
         Hieronder een paar voorbeelden van landen die u kunt vergelijken!
-        <ul>
+        <ul class>
             <li>Armenia</li>
             <li>Cyprus</li>
             <li>Albania</li>
@@ -26,7 +26,8 @@
 
     <div class="chart">
         <label>
-            <input class="femaleInput" placeholder="Country">
+            <select name="countries" class="femaleInput femaleValue">
+            </select>
             <button id="buttonFemale">Zoeken</button>
         </label>
         <div class="femaleChart">   
@@ -36,7 +37,8 @@
     </div>
     <div class="chart">
         <label>
-            <input class="maleInput" placeholder="Country">
+            <select name="countries" class="femaleInput maleValue">
+            </select>
             <button id="buttonMale">Zoeken</button>
         </label>
         <canvas id="GNImale"></canvas>  

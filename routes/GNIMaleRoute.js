@@ -50,10 +50,9 @@ router.get("/:country", async (req, res) =>
         const data = await crud.getOneSingleRecord(req, tableMale);
         console.log(data);
         if(data.length == 0)
-        {
-            
+        { 
             res.status(404);
-            res.send("ADSSSSSSSS");
+            res.send("Country you are trying to search doesn't exist.");
         }else
         {
             res.status(200);
@@ -88,7 +87,6 @@ router.put("/", async (req, res) =>
         }
     }else
     {
-        res.statusMessage = "JSON invalid";
         res.status(400);
         res.send("Data must be send in JSON schema format.")
     }
@@ -113,7 +111,6 @@ router.post("/", async (req, res) =>
         }
     }else
     {
-        res.statusMessage = "JSON invalid";
         res.status(400);
         res.send("Data must be send in JSON schema format.")
     }
