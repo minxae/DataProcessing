@@ -30,7 +30,6 @@ function createChart(id, json, chartType, update, position)
             if(x == "Country")
             { 
                 updateChart(position, values, country);
-                console.log(charts[1]);
                 return "chart created"
 
             }else

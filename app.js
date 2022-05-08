@@ -1,8 +1,6 @@
 const express = require("express"); //Express
 const app = express();
 const path = require("path");
-//const bodyParser = require('body-parser');
-//require('body-parser-xml')(bodyParser);
 
 const GNIMale = require("./routes/GNIMaleRoute.js");
 const GNIFemale = require("./routes/GNIFemaleRoute.js");
@@ -15,7 +13,6 @@ const home = require("./public_routes/home.js");
 app.use("/GNIMale", GNIMale);
 app.use("/GNIFemale", GNIFemale);
 app.use("/GNIPerCapita", GNIPerCapita);
-//app.use(bodyParser.xml());
 
 // -public routes html/js/css
 app.use('/static', express.static('public'));// serving static files to the browser

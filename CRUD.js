@@ -217,9 +217,7 @@ const validation = function(req, res, next)
         }  
     }else
     {
-        console.log(req.body);
-        
-
+        console.log(req.rawBody);
         // xml2js.parseString(req.body, (err, result) => {
         //     if(err) {
         //         throw err;

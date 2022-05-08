@@ -51,6 +51,8 @@ Hier onder bevinden zich alle routes/endpoints die de API bevat.
 
 ## GNI male routes
 
+De volgende commands moeten worden ingevoerd in de terminal van visual studio code:
+
 Get all data
 
 > Endpoint: http://localhost:3000/GNImale/
@@ -233,7 +235,7 @@ Add a country
 >
 > ```javascript
 > {
->   "Country": "Albania"
+>   "country": "Albania"
 > }
 > ```
 
@@ -260,26 +262,35 @@ Delete a country
 
 # MUST READ!
 
-Vanwege omstandigheden is tot op het heden de functionaliteit om XML als request te sturen nog niet geimplementeerd. De library die ik zou moeten gebruiken geeft verschillende errors and dus kan ik hem niet gebruiken, ook op een ander apparaat werkt de library niet en kan ik dit gedeelte niet implementeren. Ik heb wel het XSD schema gemaakt en de API XML requests laten afhandelen alleen niet doormiddel van een XSD schema validatie.
+Vanwege omstandigheden is tot op het heden de functionaliteit om XML als request te sturen nog niet geimplementeerd. De library die ik zou moeten gebruiken geeft verschillende errors bij het proberen te installeren als package, dus kan ik hem niet gebruiken. Ook op een ander apparaat werkt de library niet en kan ik dit gedeelte niet implementeren. Als u enige tips heeft om dit te voorkomen zou ik dat waarderen want ik heb alles geprobeerd. Ik heb wel het XSD schema gemaakt en de API XML requests laten afhandelen alleen niet doormiddel van een XSD schema validatie.
 
   ```	<object>
-    <?xml version="1.0" encoding="UTF-8" ?>
-    <country>
-            Albania
-    </country>
-    <data>
-      <_1995>345</_1995>
-      <_2000>34636</_2000>
-      <_2005>3453</_2005>
-      <_2010>345</_2010>
-      <_2011>345</_2011>
-      <_2012>546</_2012>
-      <_2013>2143</_2013>
-      <_2014>876</_2014>
-      <_2015>678</_2015>
-      <_2016>678</_2016>
-      <_2017>8769</_2017>
-      <_2018>678</_2018>
-    </data>
-  </object>
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="object">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="country" type="xs:string" />
+        <xs:element name="data">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="_1995" type="xs:int" />
+              <xs:element name="_2000" type="xs:int" />
+              <xs:element name="_2005" type="xs:int" />
+              <xs:element name="_2010" type="xs:int" />
+              <xs:element name="_2011" type="xs:int" />
+              <xs:element name="_2012" type="xs:int" />
+              <xs:element name="_2013" type="xs:int" />
+              <xs:element name="_2014" type="xs:int" />
+              <xs:element name="_2015" type="xs:int" />
+              <xs:element name="_2016" type="xs:int" />
+              <xs:element name="_2017" type="xs:int" />
+              <xs:element name="_2018" type="xs:int" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
   ```
