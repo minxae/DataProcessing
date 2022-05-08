@@ -6,9 +6,6 @@ const GNIMale = require("./routes/GNIMaleRoute.js");
 const GNIFemale = require("./routes/GNIFemaleRoute.js");
 const GNIPerCapita = require("./routes/GNIPerCapita.js");
 
-// -file serving routes
-const home = require("./public_routes/home.js");
-
 // -routes
 app.use("/GNIMale", GNIMale);
 app.use("/GNIFemale", GNIFemale);
