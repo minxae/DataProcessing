@@ -3,18 +3,15 @@ const crud = require("../CRUD");
 const xmlparser = require("express-xml-bodyparser");
 const Ajv = require("ajv"); //AVJ JSON schema validator
 const ajv = new Ajv();// JSON schema validator
+const app = express();
 
 let router = express.Router();
 
 router.use(xmlparser());
 router.use(express.json());
 
-// -tables
+// - tables
 const tableMale = "estimated_gni_male";
-
-// -JSON schemas 
-const GNI_MaleFemale_schema = require("../JSON_Schemas/JSON_schema_GNI_FemaleMale.json");
-const GNI_create_country = require("../JSON_Schemas/JSON_schema_GNI_create_country.json");
 
 // - Selecting all data from table.
 // - This endpoint gets all the records that are in the table:
@@ -33,13 +30,11 @@ router.get("/", async (req, res)=>
             res.status(200);
             res.send(data);
         }
-        
     }catch(err)
     {
         res.status(400);
         res.send(err);
     }
-    
 });
 
 // -Gets a single record
@@ -48,7 +43,6 @@ router.get("/:country", async (req, res) =>
     try
     {
         const data = await crud.getOneSingleRecord(req, tableMale);
-        console.log(data);
         if(data.length == 0)
         { 
             res.status(404);
@@ -69,50 +63,32 @@ router.get("/:country", async (req, res) =>
 
 // -Updating data from client
 // -Male GNI table
-router.put("/", async (req, res) =>
+router.put("/", crud.validation, async (req, res) =>
 {
-    const valid = ajv.validate(GNI_MaleFemale_schema, req.body);
-
-    if(valid)
+    try
     {
-        try
-        {
-            const data = await crud.updateData(req, tableMale);
-            res.status(data.Status);
-            res.send(data.Message);
-        }catch(err)
-        {
-            res.status(400);
-            res.send(err);
-        }
-    }else
+        const data = await crud.updateData(req, tableMale);
+        res.status(data.Status);
+        res.send(data.Message);
+    }catch(err)
     {
         res.status(400);
-        res.send("Data must be send in JSON schema format.")
+        res.send(err);
     }
 });
 
 // -Create new country row with data
-router.post("/", async (req, res) =>
+router.post("/",crud.validation, async (req, res) =>
 {
-    const valid = ajv.validate(GNI_create_country, req.body)
-    
-    if(valid)
+    try
     {
-        try
-        {
-            const data = await crud.addCountry(req, tableMale);
-            res.status(data.Status);
-            res.send(data.Message);
-        }catch(err)
-        {
-            res.status(400);
-            res.send(err);
-        }
-    }else
+        const data = await crud.addCountry(req, tableMale);
+        res.status(data.Status);
+        res.send(data.Message);
+    }catch(err)
     {
         res.status(400);
-        res.send("Data must be send in JSON schema format.")
+        res.send(err);
     }
 });
 

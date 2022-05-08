@@ -5,18 +5,11 @@ In dit bestand wordt de volledige API uitgelegd en hoe u hem moet installeren op
 
 ## Installeren 
 
-Install express
-> <code>npm install express</code>
-
-Install ajv validator
-> <code> npm install ajv </code>
-
-Install mysql
-
-> <code> npm install mysql </code>
+Install all dependencies
+> <code>npm i</code>
 
 Na het installeren kunnen we in de terminal het volgende typen:
-> <code>node app.js</code>
+> <code>nodemon app.js</code>
 
 Als alles goed verloopt zien we geen errors en staat de API op scherp. <Strong>Vergeet niet de Git repo te clonen!</strong>
 
@@ -50,7 +43,7 @@ const conn = mysql.createConnection(
     });
 ```
 
-<strong>!De blok van code bevind zich in de file CRUD.js boven aan pas dit aan naar uw eigen gegevens!</strong>
+<strong>!Het blok code bevindt zich in de file CRUD.js boven aan pas dit aan naar uw eigen gegevens!</strong>
 
 # Endpoints and formats :
 
@@ -265,9 +258,9 @@ Delete a country
 > 	
 > ```
 
-# XML request layout 
+# MUST READ!
 
-Vanwege omstandigheden is tot op het heden de functionaliteit om XML als request te sturen nog niet geimplementeerd, dit zal in de toekomst worden toegevoegd.
+Vanwege omstandigheden is tot op het heden de functionaliteit om XML als request te sturen nog niet geimplementeerd. De library die ik zou moeten gebruiken geeft verschillende errors and dus kan ik hem niet gebruiken, ook op een ander apparaat werkt de library niet en kan ik dit gedeelte niet implementeren. Ik heb wel het XSD schema gemaakt en de API XML requests laten afhandelen alleen niet doormiddel van een XSD schema validatie.
 
   ```	<object>
     <?xml version="1.0" encoding="UTF-8" ?>

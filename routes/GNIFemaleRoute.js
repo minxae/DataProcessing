@@ -12,11 +12,6 @@ router.use(express.json());
 // - tables
 const tableFemale = "estimated_gni_female";
 
-// - JSON schemas
-const GNI_MaleFemale_schema = require("../JSON_Schemas/JSON_schema_GNI_FemaleMale.json");
-const GNI_create_country = require("../JSON_Schemas/JSON_schema_GNI_create_country.json");
-const { response } = require("express");
-
 // - Gets all data from GNI Female dataset.
 router.get("/", async (req, res)=>
 {
@@ -59,49 +54,33 @@ router.get("/:country", async (req, res) =>
 
 // - Updating data from client
 // - Female GNI table
-router.put("/", async (req, res) =>
+router.put("/", crud.validation, async (req, res) =>
 {
-    const valid = ajv.validate(GNI_MaleFemale_schema, req.body);
-    if(valid)
+    try
     {
-        try
-        {
-            const data = await crud.updateData(req, tableFemale);
-            res.status(data.Status);
-            res.send(data.Message);
-        }catch(err)
-        {
-            res.status(400);
-            res.send(err);
-        }
-    }else
+        const data = await crud.updateData(req, tableFemale);
+        res.status(data.Status);
+        res.send(data.Message);
+    }catch(err)
     {
         res.status(400);
-        res.send("Data must be send in JSON schema format.")
+        res.send(err);
     }
+
 });
 // - Create new country row with data
-router.post("/", async (req, res) =>
+router.post("/", crud.validation, async (req, res) =>
 {
-    const valid = ajv.validate(GNI_create_country, req.body)
-
-    if(valid)
+    try
     {
-        try
-        {
-            const data = await crud.addCountry(req, tableFemale);
-            res.status(data.Status);
-            res.send(data.Message);
-        }catch(err)
-        {
-            res.status(400);
-            res.send(err);
-        }
-    }else
+        const data = await crud.addCountry(req, tableFemale);
+        res.status(data.Status);
+        res.send(data.Message);
+    }catch(err)
     {
         res.status(400);
-        res.send("Data must be send in JSON schema format.")
-    }    
+        res.send(err);
+    }
 });
 
 // - Delete a country out of the database

@@ -1,6 +1,13 @@
 const mysql = require("mysql"); //Mysql
 const Ajv = require("ajv");
 const ajv = new Ajv();
+const xml2js = require("xml2js");
+
+// -JSON schemas
+const GNI_MaleFemale_schema = require("./JSON_Schemas/JSON_schema_GNI_FemaleMale.json");
+const GNI_create_country = require("./JSON_Schemas/JSON_schema_GNI_create_country.json");
+const GNI_Per_capita_schema = require("./JSON_Schemas/JSON_schema_GNI_per_capita.json");
+
 
 // -database connection 
 const conn = mysql.createConnection(
@@ -188,10 +195,48 @@ function validator(body)
         return false;
     }
 }
+// - Middleware function that checks if JSON/XML structure is correct for parsing it through.
+// - XML 
+const validation = function(req, res, next)
+{
+    const type = req.headers['content-type']; 
+    console.log(type);
+    if(type == "application/json")
+    {
+        const schemaA = ajv.validate(GNI_MaleFemale_schema, req.body);
+        const schemaB = ajv.validate(GNI_create_country, req.body);
+        const schemaC = ajv.validate(GNI_Per_capita_schema, req.body);
+
+        if(schemaA || schemaB || schemaC)
+        {
+            next();
+        }else
+        {
+            res.status(400);
+            res.send("Your request is not send in the right format, check the structure please.");
+        }  
+    }else
+    {
+        console.log(req.body);
+        
+
+        // xml2js.parseString(req.body, (err, result) => {
+        //     if(err) {
+        //         throw err;
+        //     }
+        
+        //     const json = JSON.stringify(result, null, 4);
+        
+        //     // log JSON string
+        //     console.log(json);
+        // });
+    } 
+}
 
 
 
 module.exports = {
+    validation: validation,
     getAllData: getAllData,
     getOneSingleRecord: getOneSingleRecord,
     updateData: updateData,

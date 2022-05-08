@@ -12,10 +12,6 @@ router.use(express.json());
 // -tables
 const tableGNIperCapita = "gni_per_capita";
 
-// -JSON schemas 
-const GNI_Per_capita_schema = require("../JSON_Schemas/JSON_schema_GNI_per_capita.json");
-const GNI_create_country = require("../JSON_Schemas/JSON_schema_GNI_create_country.json");
-
 // - Selecting all data from table.
 // - This endpoint gets all the records that are in the table:
 // # estimated_gni_male
@@ -91,7 +87,7 @@ router.put("/", async (req, res) =>
     }
 });
 // -Create new row with data
-router.post("/", async (req, res) =>
+router.post("/", crud.validation, async (req, res) =>
 {
     const valid = ajv.validate(GNI_create_country, req.body)
 
